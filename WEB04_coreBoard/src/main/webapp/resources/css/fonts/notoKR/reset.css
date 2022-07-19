@@ -1,0 +1,50 @@
+@charset "utf-8";
+@import url("lib/font.css");
+
+/* font-family
+    // 나눔 바른고딕
+    font-family: 'NanumBarunGothic';
+    font-family: 'NanumBareunGothicUltraLight';
+    
+    //나눔 스퀘어
+    font-family: 'NanumSquare';
+    font-family: 'NanumSquare Light';
+    font-family: 'NanumSquareBold';
+    font-family: 'NanumSquare ExtraBold';
+
+*/
+
+/* HTML Default */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, article, aside, hgroup, header, footer, figure, figcaption, nav, section { margin:0; padding:0; border:0; vertical-align:baseline; background:transparent;box-sizing:border-box;}
+article, aside, hgroup, header, footer, figure, figcaption, nav, section { display: block; }
+body {padding:0;margin:0;box-sizing:border-box; font-family: 'Noto Sans KR', 'Nanum Gothic','NanumGothic', sans-serif; font-size:16px;line-height:1.4;color:#666;}
+ol, ul { list-style:none; }
+ol:after, ul:after, dl:after{content:'';display: block;clear: both;}
+blockquote, q { quotes:none; }
+blockquote:before, blockquote:after,q:before, q:after { content:''; }
+table { border-collapse:collapse; border-spacing:0; table-layout:fixed; width:100%;}
+button { margin:0; padding:0; border:0; font:inherit; color:inherit; background:transparent; overflow:visible; cursor:pointer; line-height:1; }
+a:link, a:visited, a:hover, a,active, a:focus { text-decoration:none; cursor:pointer; color:inherit;}
+legend, caption { display:none; }
+textarea { resize:vertical; font:inherit; overflow-y:auto; }
+input, select { color:inherit; font:inherit; vertical-align: middle;}
+address, i { font-style:normal; }
+table { border-collapse:collapse; table-layout:fixed; }
+img, select, input, button { vertical-align:middle; }
+em { font-style:normal; }
+input { font-family: 'NanumGothic', sans-serif;}
+/*a,input,select,textarea,button{outline:none;}*/
+
+/* placeholder */
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #989898;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #989898;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: rgba(152,152,152,0.8);
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: #989898;
+}
