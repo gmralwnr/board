@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,10 +43,10 @@ public class BoardController {
 	 *
 	 */
 	@RequestMapping(value="/")
-	public ModelAndView Main(Model model, HttpServletRequest request ) {
+	public ModelAndView main(Model model, HttpServletRequest request ) {
 
 		ModelAndView mav = new ModelAndView();
-
+		//TODO 카테고리 목록 조회 가져오기
 		System.out.println("~~~~~~~~ 페이징 로딩~~~~~~~~~");
 		mav.setViewName("main");
 
@@ -52,18 +54,16 @@ public class BoardController {
 
 	}
 
-	@RequestMapping(value="/boardList")
+	@GetMapping(value = "/boardList"/* , method =RequestMethod.GET */)
 	@ResponseBody
-	public BoardDtoList BoardList(BoardListReqDto bkdto) {
-
-		int count = 0;
+	public BoardDtoList boardList(BoardListReqDto bkdto) {
 
 		//리스트 가져오기
-		BoardDtoList BoardDtoList = new BoardDtoList();
+		BoardDtoList boardDtoList = new BoardDtoList();
 		List<BoardDto> boardList = bs.boardList(bkdto);
 
 
-		count  = bs.getBoardCount(bkdto);
+		int count  = bs.getBoardCount(bkdto);
 		//페이징
 		Paging paging = new Paging();
 
@@ -78,10 +78,10 @@ public class BoardController {
 		System.out.println(boardList);
 
 		System.out.println(bkdto.getKeyword() + bkdto.getType() + bkdto.getCategory());
-		BoardDtoList.setBoardList(boardList);
-		BoardDtoList.setCount(count);
+		boardDtoList.setBoardList(boardList);
+		boardDtoList.setCount(count);
 
-		return BoardDtoList;
+		return boardDtoList;
 	}
 
 }

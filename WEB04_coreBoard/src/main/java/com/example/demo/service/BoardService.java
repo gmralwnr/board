@@ -20,7 +20,7 @@ public class BoardService {
 		return bdao.boardList(bkdto);
 	}
 
-	public Integer getBoardCount(BoardListReqDto bkdto) {
+	public int getBoardCount(BoardListReqDto bkdto) {
 
 		return bdao.getBoardCount(bkdto);
 	}

@@ -13,7 +13,7 @@ public interface BoardDao {
 	//Board 전체리스트 가져오기
 	List<BoardDto> boardList(BoardListReqDto bkdto);
 
-	Integer getBoardCount(BoardListReqDto bkdto);
+	int getBoardCount(BoardListReqDto bkdto);
 
 
 

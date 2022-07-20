@@ -6,7 +6,8 @@ import lombok.Data;
 public class BoardListReqDto {
 	//jsp 에서 가져오는 데이터 , Request 요청
 	//검색
-	private String type;       // 검색조건
+	/**  검색조건*/
+	private String type;       //
 	private String keyword;    // 검색어
 	private String category;   // 카테고리
 

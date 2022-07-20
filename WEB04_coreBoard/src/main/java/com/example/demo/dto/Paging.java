@@ -1,5 +1,5 @@
 package com.example.demo.dto;
-
+/** 페이징*/
 public class Paging {
 
 	private int page=1; //현재 화면에 표시될 페이지번호

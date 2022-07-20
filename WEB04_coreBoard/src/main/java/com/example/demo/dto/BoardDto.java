@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
 public class BoardDto {
+	/** 게시물 번호 */
 	private int board_no;
+
 	private String category_cd;
 	private String title;
 	private String cont;
@@ -21,5 +23,8 @@ public class BoardDto {
 	private Date mod_dt;
 	private String ref_pk;
 	private int file_count;
+	private String new_yn;
+	private String category_cd_nm;
+
 
 }
