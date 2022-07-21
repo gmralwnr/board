@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.demo.dto.BoardDto;
+import com.example.demo.dto.BoardGetDto;
 import com.example.demo.dto.BoardListReqDto;
 
 @Mapper
@@ -14,6 +15,10 @@ public interface BoardDao {
 	List<BoardDto> boardList(BoardListReqDto bkdto);
 
 	int getBoardCount(BoardListReqDto bkdto);
+
+	BoardGetDto getBoardOne(int board_no);
+
+
 
 
 

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.BoardDao">
+
+<sql id="search">
+		<where>
+			<!-- 카테고리 -->
+			<if test="category != null and category!=''" >
+				AND category_cd = #{category} <!-- and category_cd = 'CTG001' -->
+			</if>
+			<!-- 검색어 select   -->
+			<if test="type != null and keyword !=''" ><!-- 공통으로 묶음 -->
+				<choose>
+					<when test="type == 1 "><!-- otherwrise -->
+					AND (title Like CONCAT('%', #{keyword}, '%') OR cont Like CONCAT('%', #{keyword}, '%')
+					OR writer_nm Like CONCAT('%', #{keyword}, '%'))
+					</when>
+
+					<when test="type == 2 ">
+					AND title Like CONCAT('%', #{keyword}, '%')
+					</when>
+
+					<when test="type == 3   ">
+					AND cont Like CONCAT('%', #{keyword}, '%')
+					</when>
+
+					<when test="type == 4 ">
+					AND (title Like CONCAT('%', #{keyword}, '%') OR cont Like CONCAT('%', #{keyword}, '%'))<!--LIKE 뒤에 괄호는 검색조건이 한번에 이루어지도록   -->
+					</when>
+					<!--SELECT * FROM bt_tb_board WHERE category_cd ='CTG001'AND (title LIKE '%AB%' OR cont like '%AB%');  -->
+
+					<when test="type == 5 ">
+					AND writer_nm  Like CONCAT('%', #{keyword}, '%')
+					</when>
+				</choose>
+			</if>
+		</where>
+</sql>
+	<select id = "boardList" parameterType="BoardListReqDto" resultType="BoardDto">
+	<!--  SELECT
+			board_no,
+			category_cd,
+			title,
+			cont,
+			writer_nm,
+			password,
+			view_cnt,
+			reg_dt
+			FROM bt_tb_board
+	-->
+
+		<!-- SELECT
+			a.board_no, a.category_cd, a.title,
+			a.cont, a.writer_nm,
+			a.view_cnt, a.reg_dt,
+			(select count(*) from bt_tb_file b where b.ref_pk = a.board_no) as file_count /*중복제거 파일을 하나씩 세서 한개로 묵음  */
+		FROM bt_tb_board a
+ -->
+
+		 select
+			 board.board_no
+			,board.category_cd
+			,cd.comm_cd_nm as category_cd_nm
+			,board.title
+			,board.cont
+			,board.writer_nm
+			,board.password
+			,board.view_cnt
+			,board.reg_dt
+			,(select count(*) from bt_tb_file b where b.ref_pk = board.board_no) as file_count
+			,case
+				when DATEDIFF(now() ,board.reg_dt) &lt; 4 then 'Y'
+				else 'N'
+			end as new_yn
+		from
+			bt_tb_board board
+		inner join bt_tb_comm_code cd on board.category_cd = cd.comm_cd
+
+			<include refid="search"></include>
+
+		<!-- 정렬순서 -->
+		<choose>
+			<when test="arrayboard != null and arrayboard == 'newboard'">
+			ORDER BY reg_dt DESC, board_no DESC
+			</when>
+			<when test="arrayboard != null and arrayboard == 'viewcount'">
+			ORDER BY view_cnt DESC, board_no DESC
+			</when>
+			<otherwise>
+			ORDER BY board_no DESC
+			</otherwise>
+		</choose>
+		<!--  -->
+		<!-- <choose>
+		<when test="reg_dt!=null">
+		 where reg_dt >=(curdate()-interval 3 DAY)as new_dt;
+		 </when>
+		</choose>
+ -->
+		<!-- 페이징 -->
+		LIMIT #{pointCount} OFFSET #{offsetData}
+
+
+		<!-- 	left outer join bt_tb_file  b  ON a.board_no = b.ref_pk; -->
+	</select>
+
+<sql id=""></sql>
+
+	<select id = "getBoardCount" parameterType="com.example.demo.dto.BoardListReqDto" resultType="int">
+		SELECT COUNT(board_no) FROM bt_tb_board
+
+		<include refid="search"></include>
+
+	</select>
+
+</mapper>
