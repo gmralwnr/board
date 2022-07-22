@@ -1,0 +1,35 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./include/head.jsp" %>
+
+<script type="test/javascript">
+
+</script>
+<body>
+	<div id="pop-wrap">
+		<h1 class="pop-tit">비밀번호 확인</h1>
+		<div class="pop-con">
+
+			<table class="view">
+			<colgroup>
+			<col style="width:100px;"><col>
+			</colgroup>
+			<tbody>
+			<tr>
+				<th>비밀번호</th>
+				<td>
+					<input type="password" class="input" style="width:200px;">
+					<a href="#" class="btn btn-red">확인</a>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+
+			<div class="btn-box">
+				<a href="javascript:self.close();" class="btn btn-default">닫기</a>
+			</div>
+
+		</div><!-- /pop-con -->
+</div><!-- /pop-wrap -->
+</body>
+</html>

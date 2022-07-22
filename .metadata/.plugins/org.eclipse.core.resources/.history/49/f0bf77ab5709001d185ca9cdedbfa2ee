@@ -1,0 +1,115 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="./include/head.jsp" %>
+
+
+<script type="text/javaScript">
+
+ console.log("실행 시작 :" + "dddddddddd")
+	$(document).ready(function(){
+		detail();
+	})
+
+	function detail(){
+	/*  $("input[name='boardNo']").val(board_no); */
+		console.log($("#boardView").serialize());
+
+		$.ajax({
+			url		: "/getboardDetail",
+			type	: "GET",
+			dataType: "json",
+			data : $("#boardView").serialize(),  //form을 Ajax를 사용하여 서버로 보내기 위한 data형태
+
+			success	: function(result){//컨트롤러에 받은 return 으로 받아온 값을 리절트로 지칭 함
+				console.log("fdfjkfgfgfgfgfgfdjf" + result);
+				$("#boardtable").html(result);
+				console.log("!!!!!!!!!!!!!!" + $("#boardtable").html(result))
+				console.log("!!@@@@@"+ result.title);
+				let data ="";
+				data +="<tr>";
+				data +="	<td>" + result.title +"</td>";
+				data +=	"</tr>"
+			},
+			error :
+				console.log("에러다")
+
+		});
+	}
+</script>
+<body>
+<div id="wrap">
+<%@ include file="./include/header.jsp" %>
+
+	<div id="container">
+<%@ include file="./include/leftgnb.jsp" %>
+
+
+		<form name="boardView" id="boardView" onsubmit="return false;" action="boardWrite">
+			<input type="hidden" value="${boardNo}" name="board_no">
+
+				<table class="write">
+			<colgroup>
+				<col style="width:150px;">
+				<col>
+				<col style="width:150px;">
+				<col>
+			</colgroup>
+			<tbody id="boardtable">
+				<tr>
+					<th class="fir">작성자</th>
+					<td>${result.title }</td>
+					<th class="fir">작성일시</th>
+					<td>2022-07-07 14:02:37</td>
+				</tr>
+				<tr>
+					<th class="fir">카테고리</th>
+					<td colspan="3">일반</td>
+				</tr>
+				<tr>
+					<th class="fir">제목</th>
+					<td colspan="3">네이버-카카오, 지난해 IT에 얼마나 투자했나?</td>
+				</tr>
+				<tr>
+					<th class="fir">내용</th>
+					<td colspan="3">
+						[디지털데일리 최민지기자] 국내 대표 플랫폼 네이버와 카카오는 지난해 정보기술(IT) 및 정보보호에 얼마나 많은 투자를 집행했을까?<br/>
+	5일 정보보호 공시 포털에 따르면 네이버는 지난해 IT부문에 9252억9100만원을 투입했다. 플랫폼 기업 중 가장 큰 규모다. IT 기업인 만큼, 정보기술 투자 비율이 높다는 설명이다.<br/>
+	네이버는 “IT부문과 관련해 기획·개발·운영·유지·보수를 수행하는 내부 인력 확충 등으로 투자를 확대했다”며 “정보처리 시스템 구입, 유지보수 등에 대한 투자도 크게 늘었다”고 말했다.<br/>
+	정보보호 투자액은 350억4300만원으로, IT투자액 3.8%를 차지한다. 네이버는 데브섹옵스 지원 시스템, 서비스관리도구 통합 권한관리시스템, 암호관리시스템 등 자체 보안 시스템을 개발 운영에도 투자하고 있다. 이러한 자체 개발 시스템 비용은 공시에 포함되지 않았다.<br/>
+	네이버 총 임직원 수는 4319명이며, IT부문 인력은 3069명이다. 10명 중 7명 이상이 IT 인력인 셈이다. 정보보호 전담인력은 내부인력 47명, 외주인력 60명 총 107명이다. 정보보호 전담 직원 수는 IT부문 인력 3.5%에 해당된다.<br/>
+	이와 관련 네이버는 “최근 대규모 개발자 채용, 내부 개발한 보안 시스템 활용이 높은 이유로 인해, IT부문 투자(인력) 대비 정보보호부문 투자(인력) 비율이 낮아보일 수 있다”고 부연했다.<br/>
+	이어 “네이버는 인력 확대, 장비 이용료, 통신회선비용 등에 투자를 확대하고 있다. 이사회 산하 리스크관리위원회를 통한 정보보호 리스크를 관리하고, 외부 인사로 구성된 개인정보보호위원회를 통한 연구 및 자문활동도 진행하고 있다”며 “2012년 국내 최초로 SOC2, 3를 동시 인증을 획득한 뒤 10년 이상 해당 인증을 갱신하며, 개인정보 관리 체계 및 내부 통제에 있어 글로벌 수준 경쟁력을 유지하고 있다”고 덧붙였다
+					</td>
+				</tr>
+				<tr>
+					<th class="fir">첨부파일</th>
+					<td colspan="3">
+						<span><a href="#">상담내역1.xlsx</a></span>
+						<br />
+						<span><a href="#">상담내역2.xlsx</a></span>
+					</td>
+				</tr>
+			</tbody>
+			</table>
+
+			<div class="btn-box r">
+				<a href="#" class="btn btn-green">수정</a>
+				<a href="#" class="btn btn-red">삭제</a>
+				<a href="#" class="btn btn-default">목록</a>
+			</div>
+</form>
+		</div><!-- /contents -->
+
+	</div><!-- /container -->
+
+
+
+<%@ include file="./include/rightgnb.jsp" %>
+<%@ include file="./include/footer.jsp" %>
+</div><!-- /wrap -->
+
+<script>
+	gnb('1','1');
+</script>
+
+</body>
+</html>

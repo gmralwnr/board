@@ -31,5 +31,11 @@ public class BoardService {
 		return bdao.getBoardOne(board_no);
 	}
 
+	public BoardGetDto selectPassword(int board_no) {
+
+		return bdao.selectPassword(board_no);
+	}
+
+
 
 }

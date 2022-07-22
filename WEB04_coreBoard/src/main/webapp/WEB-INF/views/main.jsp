@@ -45,11 +45,12 @@
 					let boardList = result.boardList;
 					let boardListCount = result.count;
 					let data = "";
+					console.log("리스트 " + boardList);
 					if(boardListCount !=0){
 						for(var i=0; i<boardList.length; i++){
 							data +="<tr>";
 							data +="	<td>" + boardList[i]["rnum"] +"</td>";
-							data +="	<td>" + boardList[i]["category_cd"] +"</td>";
+							data +="	<td>" + boardList[i]["category_cd_nm"] +"</td>";
 
 							//new icon 3일 이후는 안보이게
 							data +="	<td class='l'>";
@@ -165,13 +166,19 @@
 		board();
 	});
  */
-
+	//디테일 가는 방법
  	function detailForm(board_no){
 
 	 alert(board_no)
 	 $("input[name='boardNo']").val(board_no);  //board_no 값을 boardNO에 값을 넘겨줌 -> 컨트롤러에 받아서 값을 내보냄 // 폼테그에도 INPUT값을 적어줘야함
+
 	 $("#searchBoardForm").attr("onsubmit", '');
 	 $('#searchBoardForm').attr("action", "/boardDetail").submit();
+ 	}
+
+ 	function boardWrite(){
+		
+ 		location.href="boardWriteForm"
  	}
 </script>
 
@@ -302,7 +309,7 @@
 			</div>
 
 			<div class="btn-box l mt30" style="clear:both;">
-				<a href="#" class="btn btn-green fr">등록</a>
+				<a href="javascript:void(0);" onClick="boardWrite()" class="btn btn-green fr">등록</a>
 			</div>
 
 		</div><!-- /contents -->
