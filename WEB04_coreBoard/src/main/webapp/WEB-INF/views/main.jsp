@@ -1,17 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>코아메소드-초급자교육</title>
-
-<link href="resources/css/style.css" rel="stylesheet">
-<script src="resources/js/jquery.min.js"></script>
-<script src="resources/js/common.js"></script>
-<script src="resources/js/custom.js"></script>
+<%@ include file="./include/head.jsp" %>
 
 <script type="text/javaScript">
 
@@ -25,7 +14,7 @@
 
 			let pageSize = $("#boardCount").val();  //보이는 한 페이지에 보이는 게시글 수 //select 로 개수를 지정해서 볼 수 있기 때문에 #boardCount를 넣어줌
 			let totalPage =0;  //토탈 페이지 수
-			let curPage = (num === undefined ? 1 : num); // 현재 페이지
+			let curPage = (num === undefined ? 1 : num); // 현재 페이지 NUM이 undifined 일때 1이면 true /false num
 
 			let offsetData = (pageSize * (curPage-1));
 
@@ -42,7 +31,7 @@
 				type: "GET",/*컨트롤 매핑과 동일 */
 
 				dataType: "json",
-				data :	$("#searchBoardForm").serialize(),
+				data :	$("#searchBoardForm").serialize(),  //보내는값
 				/*
 						{
 							page : page,
@@ -54,35 +43,43 @@
 				success : function(result){
 
 					let boardList = result.boardList;
-
+					let boardListCount = result.count;
 					let data = "";
-					for(var i=0; i<boardList.length; i++){
+					console.log("리스트 " + boardList);
+					if(boardListCount !=0){
+						for(var i=0; i<boardList.length; i++){
+							data +="<tr>";
+							data +="	<td>" + boardList[i]["rnum"] +"</td>";
+							data +="	<td>" + boardList[i]["category_cd_nm"] +"</td>";
 
+							//new icon 3일 이후는 안보이게
+							data +="	<td class='l'>";
+							if((boardList[i]["new_yn"]) ==='Y'){
+								data += " <a href='javascript:void(0);' onclick='detailForm(" + boardList[i]['board_no'] + ")'>" + boardList[i]["title"] + "<img src='resources/images/new.gif' class='new' /></a>" +"</td>";
+							}else{
+								data += " <a href='javascript:void(0);' onclick='detailForm("+ boardList[i]['board_no'] +")'>" + boardList[i]["title"] +"</td>";
+							}
+							data +="    </td>"
+							//file 클립 icon 유뮤
+							data +="	<td>";
+							if((boardList[i]["file_count"]) != 0){
+								data +="		<a href='javascript:void(0);' class='ic-file'>" + boardList[i]["file_count"]+ "</a>" ;
+							}
+							data +="	</td>";
+							data +="	<td>" + boardList[i]["writer_nm"] + "</td>";
+							data +="	<td>" + boardList[i]["view_cnt"] + "</td>";
+						 	data +="	<td>" + boardList[i]["reg_dt"] + "</td>";
+
+							data+="</tr>";
+
+						}
+					}else{
+						console.log("게시물 없음 ");
 						data +="<tr>";
-						data +="	<td>" + boardList[i]["board_no"] +"</td>";
-						data +="	<td>" + boardList[i]["category_cd"] +"</td>";
-
-						//new icon 3일 이후는 안보이게
-						data +="	<td class='l'>";
-						if((boardList[i]["new_yn"]) ==='Y'){
-							data += " <a href='#''>" + boardList[i]["title"] + "<img src='resources/images/new.gif' class='new' /></a>" +"</td>";
-						}else{
-							data += " <a href='#''>" + boardList[i]["title"] +"</td>";
-						}
-						data +="    </td>"
-						//file 클립 icon 유뮤
-						data +="	<td>";
-						if((boardList[i]["file_count"]) != 0){
-							data +="		<a href='javascript:void(0);' class='ic-file'>" + boardList[i]["file_count"]+ "</a>" ;
-						}
-						data +="	</td>";
-						data +="	<td>" + boardList[i]["writer_nm"] + "</td>";
-						data +="	<td>" + boardList[i]["view_cnt"] + "</td>";
-					 	data +="	<td>" + boardList[i]["reg_dt"] + "</td>";
-
-						data+="</tr>";
-
+						data +="	<td colspan='7'>"+ "게시글이 없습니다" + "</td>";
+						data +="</tr>";
 					}
+
 					$('#boardtable').append(data); //추가
 
 					//페이징
@@ -102,7 +99,7 @@
 		}
 
 
-		function pageLink(curPage, totalPage, board){
+		function pageLink(curPage, totalPage, board){  //현재페이지 총 페이지 함수이름
 
 			let pageUrl ="";
 
@@ -169,6 +166,20 @@
 		board();
 	});
  */
+	//디테일 가는 방법
+ 	function detailForm(board_no){
+
+	 alert(board_no)
+	 $("input[name='boardNo']").val(board_no);  //board_no 값을 boardNO에 값을 넘겨줌 -> 컨트롤러에 받아서 값을 내보냄 // 폼테그에도 INPUT값을 적어줘야함
+
+	 $("#searchBoardForm").attr("onsubmit", '');
+	 $('#searchBoardForm').attr("action", "/boardDetail").submit();
+ 	}
+
+ 	function boardWrite(){
+		
+ 		location.href="boardWriteForm"
+ 	}
 </script>
 
 </head>
@@ -183,11 +194,11 @@
 
 
 				<!-- ONSUBMIT 전송이 안되도록 검색창에 남아있도록 하기 위해 FALSE -->
-			<form name="search" id="searchBoardForm" onsubmit="return false;">
+			<form name="search" id="searchBoardForm" method="post" onsubmit="return false;" action= "boardDetail"><!--  -->
 				<input type="hidden" name="currentPage" id="currentPage" value=""/>
 				<input type="hidden" name="pointCount" id="pointCount" />  <!-- form 밖에 있는것을 담아오기 위해 input hidden  을 사용 -->
 				<input type="hidden" name="offsetData" id="offsetData" />
-
+				<input type="hidden" name="boardNo" />
 				<div class="hide-dv mt10" id="hideDv">
 					<table class="view">
 						<colgroup>
@@ -213,7 +224,7 @@
 								<th>검색어</th>
 								<td>
 									<select name="type" class="select" style="width:150px;">
-										<option value="1">전체</option>
+										<option value="">전체</option>
 										<option value="2" >제목</option>
 										<option value="3" >내용</option>
 										<option value="4" >제목+내용</option>
@@ -266,7 +277,7 @@
 				<th>작성일</th>
 			</tr>
 			</thead>
-			<tbody id="boardtable">
+			<tbody id="boardtable"> <!-- 리스트 받기 -->
 
 			</tbody>
 			</table>
@@ -292,12 +303,13 @@
 					<select class="select" id="boardCount" style="width:120px;"  onchange="board()"> <!-- 실시간 변경 onchange -->
 						<option value="10">10개씩보기</option>
 						<option value="30">30개씩보기</option>
+						<option value="50">50개씩보기</option>
 					</select>
 				</div>
 			</div>
 
 			<div class="btn-box l mt30" style="clear:both;">
-				<a href="#" class="btn btn-green fr">등록</a>
+				<a href="javascript:void(0);" onClick="boardWrite()" class="btn btn-green fr">등록</a>
 			</div>
 
 		</div><!-- /contents -->

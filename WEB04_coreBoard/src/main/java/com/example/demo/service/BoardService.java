@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.BoardDto;
+import com.example.demo.dto.BoardGetDto;
 import com.example.demo.dto.BoardListReqDto;
 import com.example.demo.repository.BoardDao;
 
@@ -24,6 +25,17 @@ public class BoardService {
 
 		return bdao.getBoardCount(bkdto);
 	}
+
+	public BoardGetDto getBoardOne(int board_no) {
+
+		return bdao.getBoardOne(board_no);
+	}
+
+	public BoardGetDto selectPassword(int board_no) {
+
+		return bdao.selectPassword(board_no);
+	}
+
 
 
 }
