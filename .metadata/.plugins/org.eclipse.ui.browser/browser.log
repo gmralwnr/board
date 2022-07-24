@@ -46,3 +46,4 @@
 7월 22, 2022 14:08:40.879 [15016:16160:0722/140840.879:ERROR:util.cc(127)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
 7월 22, 2022 14:19:41.233 [15016:14956:0722/141941.232:ERROR:CONSOLE(1)] "Uncaught (in promise) RangeError: Invalid line number 166 in 1-line document", source: devtools://devtools/bundled/devtools-frontend/front_end/third_party/codemirror.next/chunk/codemirror.js (1)
 7월 22, 2022 17:37:34.315 [15016:14956:0722/173734.314:ERROR:interface_endpoint_client.cc(665)] Message 0 rejected by interface blink.mojom.WidgetHost
+7월 22, 2022 18:05:20.87 [15016:7064:0722/180520.087:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
