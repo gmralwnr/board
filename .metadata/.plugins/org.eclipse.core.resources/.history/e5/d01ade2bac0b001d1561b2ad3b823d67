@@ -155,7 +155,7 @@ public class BoardController {
 		 */
 		return "boardDetail";
 	}
-erer
+
 	@GetMapping("/boardWriteForm")
 	public String boardWriteForm() {
 
