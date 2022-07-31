@@ -1,13 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
 <%@ include file="./include/head.jsp" %>
 
-<script type="text/javaScript">
+	<script type="text/javaScript">
 
-	$(document).ready(function(){
-		board();
+		$(document).ready(function(){
+			if(${brdto.currentPage} !=0){
+				board(${brdto.currentPage}) //페이징은 ajax에 담겨져 있기떄문에 페이지 번호를(currentPage 현재페이지) 담아서 넘겨줘야함
+			}else{
+				board();
+			}
 
-	})
+		})
 
 
 		function board(num){
@@ -54,12 +61,13 @@
 
 							//new icon 3일 이후는 안보이게
 							data +="	<td class='l'>";
-							if((boardList[i]["new_yn"]) ==='Y'){
-								data += " <a href='javascript:void(0);' onclick='detailForm(" + boardList[i]['board_no'] + ")'>" + boardList[i]["title"] + "<img src='resources/images/new.gif' class='new' /></a>" +"</td>";
-							}else{
-								data += " <a href='javascript:void(0);' onclick='detailForm("+ boardList[i]['board_no'] +")'>" + boardList[i]["title"] +"</td>";
+
+							data += " <a href='javascript:void(0);' onclick='detailForm(" + boardList[i]['board_no'] + ")'>" + boardList[i]["title"];
+							if((boardList[i]["new_yn"]) ==='Y'){//type 까지 비교 문자와 문자
+								data +=	"<img src='resources/images/new.gif' class='new' />";
 							}
-							data +="    </td>"
+							data +=	"</a>" +"</td>";
+
 							//file 클립 icon 유뮤
 							data +="	<td>";
 							if((boardList[i]["file_count"]) != 0){
@@ -71,8 +79,7 @@
 						 	data +="	<td>" + boardList[i]["reg_dt"] + "</td>";
 
 							data+="</tr>";
-
-						}
+							}
 					}else{
 						console.log("게시물 없음 ");
 						data +="<tr>";
@@ -90,10 +97,18 @@
 						totalPage = Math.ceil(totalCount / pageSize); //총 페이지개수 = 총 게시글 수를 한페이지에 보이는 게시글 10개 를 나누기(meth.ceil 반올림)
 						var jspPage = pageLink(curPage, totalPage, "board" ); //pageLink(현재페이지, 전체페이지, 호출할 함수이름)
 						$("#areaPage").append(jspPage); //담아주기
+
+						// ********만약에 검색버튼을 누르지 않고, 상세화면으로 갔다가 취소한 경우 토탈 페이지 보다 크면 토탈페이지랑 값을 같게 한다.
+						var nowPage = $("#currentPage").val(); //nowPage : 현재 페이지에서 들어간 버노 //
+
+						if( nowPage > totalPage ) {//total 페이지는 조회된 페이지값을 가지고 있음 , 검색 하고 서브밋을 누르지 않고 들어갔을 경우 토탈 페이지가 계산되서
+							board(totalPage); //멘끝페이지로 감
+						}
+
 					}
-			/*	 error :function(){
+					/*error :function(){
 					alert("request error!");
-				} */
+					} */
 				}
 			});
 		}
@@ -149,56 +164,78 @@
 
 		}
 
-	/*검색 type select */
-	function go_serach(){
-			board();
+		/*검색 type select */
+		function go_serach(){
+				board();
 
-	}
-	/* 엔터키 누르면 이동 */
-	function enterkey(){
-		if(window.event.keyCode == 13){
-			board();
 		}
-	}
+		/* 엔터키 누르면 이동 */
+		function enterkey(){
+			if(window.event.keyCode == 13){
+				board();
+			}
+		}
 
-/* 	$("#arrayboard").on('change', function() {
-		alert("dddd")
-		board();
-	});
+	/* 	$("#arrayboard").on('change', function() {
+			alert("dddd")
+			board();
+		});
  */
 	//디테일 가는 방법
- 	function detailForm(board_no){
+	 	function detailForm(board_no){
 
-	 alert(board_no)
-	 $("input[name='boardNo']").val(board_no);  //board_no 값을 boardNO에 값을 넘겨줌 -> 컨트롤러에 받아서 값을 내보냄 // 폼테그에도 INPUT값을 적어줘야함
 
-	 $("#searchBoardForm").attr("onsubmit", '');
-	 $('#searchBoardForm').attr("action", "/boardDetail").submit();
- 	}
+			/* alert(board_no) */
+			$("input[name='board_no']").val(board_no);  //board_no 값을 board_no에 값을 넘겨줌 -> 컨트롤러에 받아서 값을 내보냄 // 폼테그에도 INPUT값을 적어줘야함
 
- 	function boardWrite(){
-		
- 		location.href="boardWriteForm"
- 	}
-</script>
+			$("#searchBoardForm").attr("onsubmit", '');
+			$('#searchBoardForm').attr("action", "/boardDetail").submit();
+
+	 	}
+
+		 /*	function detailForm(board_no){
+			 $("input[name='board_no']").val(board_no);  //board_no 값을 board_no에 값을 넘겨줌 -> 컨트롤러에 받아서 값을 내보냄 // 폼테그에도 INPUT값을 적어줘야함
+
+			 $("#searchBoardForm").attr("onsubmit", '');
+			 $('#searchBoardForm').attr("action", "/boardDetail").submit();
+		 	}
+		  */
+
+	 	function boardWrite(){
+			$("#searchBoardForm").attr("onsubmit", '');
+			$("#searchBoardForm").attr("method", "post");
+			$('#searchBoardForm').attr("action", "/boardWriteForm").submit();
+
+	 		//location.href="boardWriteForm"
+	 	}
+	</script>
 
 </head>
-
 <body>
-
 <div id="wrap">
 <%@ include file="./include/header.jsp" %>
 
 	<div id="container">
 <%@ include file="./include/leftgnb.jsp" %>
+		<div id="contents"><!-- 바디 -->
 
+			<div class="location">
+				<span class="ic-home">HOME</span><span>커뮤니티</span><em>통합게시판</em>
+			</div>
 
+			<div class="tit-area">
+				<h3 class="h3-tit">통합게시판</h3>
+			</div>
 				<!-- ONSUBMIT 전송이 안되도록 검색창에 남아있도록 하기 위해 FALSE -->
 			<form name="search" id="searchBoardForm" method="post" onsubmit="return false;" action= "boardDetail"><!--  -->
-				<input type="hidden" name="currentPage" id="currentPage" value=""/>
-				<input type="hidden" name="pointCount" id="pointCount" />  <!-- form 밖에 있는것을 담아오기 위해 input hidden  을 사용 -->
-				<input type="hidden" name="offsetData" id="offsetData" />
-				<input type="hidden" name="boardNo" />
+				<input type="hidden" name="currentPage" id="currentPage" value="${brdto.currentPage}"/>
+				<input type="hidden" name="pointCount" id="pointCount" value="${brdto.pointCount}"/>  <!-- form 밖에 있는것을 담아오기 위해 input hidden  을 사용 -->
+				<input type="hidden" name="offsetData" id="offsetData"	value="${brdto.offsetData}"  />
+				<input type="hidden" name="board_no" id="board_no"/>
+				<!-- 추가건  -->
+			 	<%--<input type="hidden" name="keyword" id="keyword" value="${brdto.keyword}">
+				<input type="hidden" name="type" id="type" value="${brdto.type}">
+				<input type="hidden" name="category" id="category" value="${brdto.category}"> --%>
 				<div class="hide-dv mt10" id="hideDv">
 					<table class="view">
 						<colgroup>
@@ -211,11 +248,19 @@
 							<tr>
 								<th>카테고리</th>
 								<td>
-									<select name="category" class="select" style="width:150px;" >
+									<!-- <select name="category" class="select" style="width:150px;" >
 										<option value="">전체</option>
 										<option value="CTG001">공지</option>
 										<option value="CTG002">중요</option>
 										<option value="CTG003">일반</option>
+									</select> -->
+									<select name="category" class="select" style="width:150px;" >
+										<option value="">전체</option>
+										<c:forEach var="item" items="${category}">
+											<option value="${item.comm_cd}" <c:if test ="${brdto.category == item.comm_cd}">selected="selected"</c:if>>
+												${item.comm_cd_nm}
+											</option>
+										</c:forEach>
 									</select>
 								</td>
 							</tr>
@@ -225,13 +270,13 @@
 								<td>
 									<select name="type" class="select" style="width:150px;">
 										<option value="">전체</option>
-										<option value="2" >제목</option>
-										<option value="3" >내용</option>
-										<option value="4" >제목+내용</option>
-										<option value="5" >작성자명</option>
+										<option value="2" <c:if test="${brdto.type == 2}">selected="selected"</c:if>>제목</option>
+										<option value="3" <c:if test="${brdto.type == 3}">selected="selected"</c:if>>내용</option>
+										<option value="4" <c:if test="${brdto.type == 4}">selected="selected"</c:if>>제목+내용</option>
+										<option value="5" <c:if test="${brdto.type == 5}">selected="selected"</c:if>>작성자명</option>
 
 									</select>
-									<input type="text" class="input" style="width:300px;" id="keyword" name="keyword"  value="${keyword}" onkeyup="enterkey();">
+									<input type="text" class="input" style="width:300px;" id="keyword" name="keyword"  value="${brdto.keyword}" onkeyup="enterkey();">
 								</td>
 							</tr>
 
@@ -241,7 +286,7 @@
 				</div>
 
 				<div class="btn-box btm l">
-					<a href="#" class="btn btn-red fr" name="search" onClick="go_serach()">검색</a>
+					<a href="javascript:void(0)" class="btn btn-red fr" name="search" onClick="go_serach()">검색</a>
 				</div>
 
 				<div class="tbl-hd noBrd mb0">
@@ -249,8 +294,8 @@
 					<div class="right">
 						<span class="spanTitle">정렬 순서 :</span>
 						<select class="select" name="arrayboard" id="arrayboard" onchange="board()" style="width:120px;">
-							<option value="newboard">최근 작성일</option>
-							<option value="viewcount">조회수</option>
+							<option value="newboard"<c:if test="${brdto.arrayboard eq 'newboard'}">selected="selected"</c:if>>최근 작성일</option>
+							<option value="viewcount"<c:if test="${brdto.arrayboard eq 'viewcount'}"> selected="selected"</c:if>>조회수</option>
 						</select>
 					</div>
 				</div>
@@ -301,9 +346,9 @@
 				</div>
 				<div class="right">
 					<select class="select" id="boardCount" style="width:120px;"  onchange="board()"> <!-- 실시간 변경 onchange -->
-						<option value="10">10개씩보기</option>
-						<option value="30">30개씩보기</option>
-						<option value="50">50개씩보기</option>
+						<option value="10" <c:if test="${brdto.pointCount == 10}">selected="selected"</c:if>>10개씩보기</option>
+						<option value="30" <c:if test="${brdto.pointCount == 30}">selected="selected"</c:if>>30개씩보기</option>
+						<option value="50" <c:if test="${brdto.pointCount == 50}">selected="selected"</c:if>>50개씩보기</option>
 					</select>
 				</div>
 			</div>

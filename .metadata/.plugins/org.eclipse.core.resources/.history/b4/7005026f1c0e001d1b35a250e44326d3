@@ -1,0 +1,67 @@
+package com.example.demo.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.dto.BoardCtgDto;
+import com.example.demo.dto.BoardDto;
+import com.example.demo.dto.BoardGetDto;
+import com.example.demo.dto.BoardListReqDto;
+import com.example.demo.dto.BoardSetDto;
+import com.example.demo.repository.BoardDao;
+
+@Service
+public class BoardService {
+	@Autowired
+	private BoardDao bdao;
+/** 주석쓰기*/
+	public List<BoardDto> boardList(BoardListReqDto bkdto) {
+
+
+		return bdao.boardList(bkdto);
+	}
+
+	public int getBoardCount(BoardListReqDto bkdto) {
+
+		return bdao.getBoardCount(bkdto);
+	}
+
+	public BoardGetDto getBoardOne(int board_no) {
+
+		return bdao.getBoardOne(board_no);
+	}
+
+	public BoardGetDto selectPassword(int board_no) {
+
+		return bdao.selectPassword(board_no);
+	}
+
+	public int boardUpdate(BoardSetDto bsdto) {
+
+		return bdao.boardUpdate(bsdto);
+	}
+
+	public int boardInsert(BoardSetDto bsdto) {
+
+		return bdao.boardInsert(bsdto);
+	}
+
+	//category 목록 가져오기
+	public List<BoardCtgDto> categoryGet() {
+
+		return bdao.categoryGet();
+	}
+	//게시물 삭제
+
+	public void boardDelete(int board_no) {
+
+		return bdao.boardDelete(board_no);
+
+	}
+
+
+
+}

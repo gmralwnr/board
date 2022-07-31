@@ -47,3 +47,30 @@
 7월 22, 2022 14:19:41.233 [15016:14956:0722/141941.232:ERROR:CONSOLE(1)] "Uncaught (in promise) RangeError: Invalid line number 166 in 1-line document", source: devtools://devtools/bundled/devtools-frontend/front_end/third_party/codemirror.next/chunk/codemirror.js (1)
 7월 22, 2022 17:37:34.315 [15016:14956:0722/173734.314:ERROR:interface_endpoint_client.cc(665)] Message 0 rejected by interface blink.mojom.WidgetHost
 7월 22, 2022 18:05:20.87 [15016:7064:0722/180520.087:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
+
+7월 28, 2022 08:59:08.57 NEW SESSION
+7월 28, 2022 08:59:08.58 [8264:13076:0728/085908.056:ERROR:device_event_log_impl.cc(214)] [08:59:08.056] USB: usb_device_handle_win.cc:1048 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+7월 28, 2022 08:59:08.58 [8264:13076:0728/085908.057:ERROR:device_event_log_impl.cc(214)] [08:59:08.057] USB: usb_device_handle_win.cc:1048 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+7월 28, 2022 09:00:05.378 [8264:19884:0728/090005.377:ERROR:util.cc(127)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
+7월 28, 2022 12:25:00.255 [8264:13076:0728/122500.254:ERROR:device_event_log_impl.cc(214)] [12:25:00.253] USB: usb_service_win.cc:104 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: 요소가 없습니다. (0x490)
+7월 28, 2022 14:00:05.392 [8264:1980:0728/140005.391:ERROR:util.cc(127)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
+7월 28, 2022 16:03:37.472 [8264:13076:0728/160337.471:ERROR:CONSOLE(1)] "Uncaught (in promise) RangeError: Invalid line number 79 in 1-line document", source: devtools://devtools/bundled/devtools-frontend/front_end/third_party/codemirror.next/chunk/codemirror.js (1)
+
+7월 29, 2022 08:55:54.856 NEW SESSION
+7월 29, 2022 08:55:54.856 [14248:22808:0729/085554.855:ERROR:device_event_log_impl.cc(214)] [08:55:54.856] USB: usb_device_handle_win.cc:1048 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+7월 29, 2022 08:55:54.857 [14248:22808:0729/085554.856:ERROR:device_event_log_impl.cc(214)] [08:55:54.857] USB: usb_device_handle_win.cc:1048 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+7월 29, 2022 08:56:52.214 [14248:7680:0729/085652.214:ERROR:util.cc(127)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
+7월 29, 2022 10:25:31.281 [14248:22808:0729/102531.280:ERROR:device_event_log_impl.cc(214)] [10:25:31.278] USB: usb_service_win.cc:104 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: 요소가 없습니다. (0x490)
+7월 29, 2022 13:56:52.231 [14248:12716:0729/135652.230:ERROR:util.cc(127)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
+7월 29, 2022 15:49:41.47 [14248:22808:0729/154941.046:ERROR:CONSOLE(6)] "console.assert", source: devtools://devtools/bundled/devtools-frontend/front_end/panels/console/console.js (6)
+7월 29, 2022 15:49:41.47 [14248:22808:0729/154941.046:ERROR:CONSOLE(6)] "console.assert", source: devtools://devtools/bundled/devtools-frontend/front_end/panels/console/console.js (6)
+7월 29, 2022 15:49:41.47 [14248:22808:0729/154941.046:ERROR:CONSOLE(6)] "console.assert", source: devtools://devtools/bundled/devtools-frontend/front_end/panels/console/console.js (6)
+7월 29, 2022 15:49:41.47 [14248:22808:0729/154941.046:ERROR:CONSOLE(6)] "console.assert", source: devtools://devtools/bundled/devtools-frontend/front_end/panels/console/console.js (6)
+7월 29, 2022 15:49:41.47 [14248:22808:0729/154941.046:ERROR:CONSOLE(6)] "console.assert", source: devtools://devtools/bundled/devtools-frontend/front_end/panels/console/console.js (6)
+7월 29, 2022 15:49:44.222 [14248:22808:0729/154944.222:ERROR:CONSOLE(6)] "console.assert", source: devtools://devtools/bundled/devtools-frontend/front_end/panels/console/console.js (6)
+7월 29, 2022 15:49:44.223 [14248:22808:0729/154944.222:ERROR:CONSOLE(6)] "console.assert", source: devtools://devtools/bundled/devtools-frontend/front_end/panels/console/console.js (6)
+7월 29, 2022 15:49:44.223 [14248:22808:0729/154944.222:ERROR:CONSOLE(6)] "console.assert", source: devtools://devtools/bundled/devtools-frontend/front_end/panels/console/console.js (6)
+7월 29, 2022 15:49:44.223 [14248:22808:0729/154944.222:ERROR:CONSOLE(6)] "console.assert", source: devtools://devtools/bundled/devtools-frontend/front_end/panels/console/console.js (6)
+7월 29, 2022 15:49:44.223 [14248:22808:0729/154944.222:ERROR:CONSOLE(6)] "console.assert", source: devtools://devtools/bundled/devtools-frontend/front_end/panels/console/console.js (6)
+7월 29, 2022 15:49:44.224 [14248:22808:0729/154944.222:ERROR:CONSOLE(6)] "console.assert", source: devtools://devtools/bundled/devtools-frontend/front_end/panels/console/console.js (6)
+7월 29, 2022 17:56:37.851 [14248:22808:0729/175637.851:ERROR:interface_endpoint_client.cc(665)] Message 0 rejected by interface blink.mojom.WidgetHost

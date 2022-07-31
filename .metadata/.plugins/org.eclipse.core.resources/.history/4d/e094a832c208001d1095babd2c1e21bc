@@ -1,8 +1,0 @@
-package com.example.demo.dto;
-
-import java.util.List;
-
-public class BoardGetDto {
-	private List<BoardDto> boardList;
-	private board_no;
-}

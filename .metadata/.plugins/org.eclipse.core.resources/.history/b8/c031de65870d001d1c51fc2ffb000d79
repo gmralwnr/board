@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.BoardDao">
+
+	<sql id="search">
+		<where>
+			<!-- 카테고리 -->
+			<if test="category != null and category!=''" >
+				AND category_cd = #{category} <!-- and category_cd = 'CTG001' -->
+			</if>
+
+			<!-- 검색어 select   -->
+			<if test="type != null and keyword !=''" ><!-- 공통으로 묶음 -->
+				<choose>
+					<when test="type == 2 ">
+					AND title LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+
+					<when test="type == 3   ">
+					AND cont LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+
+					<when test="type == 4 ">
+					AND (title LIKE CONCAT('%', #{keyword}, '%') OR cont LIKE CONCAT('%', #{keyword}, '%'))<!--LIKE 뒤에 괄호는 검색조건이 한번에 이루어지도록   -->
+					</when>
+					<!--SELECT * FROM bt_tb_board WHERE category_cd ='CTG001'AND (title LIKE '%AB%' OR cont LIKE '%AB%');  -->
+
+					<when test="type == 5 ">
+					AND writer_nm  LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+
+					<otherwise><!-- 전체조건에는 otherwise 로 뺴주어줌  -->
+					<!-- <when test="type == 1 "> otherwrise -->
+						AND (
+								title LIKE CONCAT('%', #{keyword}, '%')
+								OR cont LIKE CONCAT('%', #{keyword}, '%')
+								OR writer_nm LIKE CONCAT('%', #{keyword}, '%')
+							)
+						<!-- </when> -->
+					</otherwise>
+				</choose>
+			</if>
+		</where>
+	</sql>
+
+	<select id = "boardList" parameterType="BoardListReqDto" resultType="BoardDto">
+	<!--  SELECT
+			board_no,
+			category_cd,
+			title,
+			cont,
+			writer_nm,
+			password,
+			view_cnt,
+			reg_dt
+			FROM bt_tb_board
+	-->
+
+		<!-- SELECT
+			a.board_no, a.category_cd, a.title,
+			a.cont, a.writer_nm,
+			a.view_cnt, a.reg_dt,
+			(select count(*) from bt_tb_file b where b.ref_pk = a.board_no) as file_count /*중복제거 파일을 하나씩 세서 한개로 묵음  */
+		FROM bt_tb_board a
+ -->
+
+		 select
+			<choose>
+				<when test="arrayboard != null and arrayboard == 'newboard'">
+				ROW_NUMBER() OVER (ORDER BY reg_dt ASC, board_no ASC) as rnum	<!-- ASC 정렬로 잘 받은 다음 DESC 역순으로 뽑기 -->
+				</when>
+				<when test="arrayboard != null and arrayboard == 'viewcount'">
+				ROW_NUMBER() OVER (ORDER BY view_cnt ASC, board_no ASC) as rnum
+				</when>
+				<otherwise>
+				ROW_NUMBER() OVER (ORDER BY board_no ASC) as rnum
+				</otherwise>
+			</choose>
+			,board.board_no
+			,board.category_cd
+			,cd.comm_cd_nm as category_cd_nm
+			,board.title
+			,board.cont
+			,board.writer_nm
+			<!-- ,board.password -->
+			,board.view_cnt
+			,board.reg_dt
+			,(select count(*) from bt_tb_file file where file.ref_pk = board.board_no) as file_count
+			,case
+				when DATEDIFF(now() ,board.reg_dt) &lt; 4 then 'Y' <!-- 날짜 계산 NEW  -->
+				else 'N'
+			end as new_yn
+		from
+			bt_tb_board board
+		inner join bt_tb_comm_code cd on board.category_cd = cd.comm_cd
+
+			<include refid="search"></include>
+
+		<!-- 정렬순서 -->
+		ORDER BY rnum DESC
+
+		<!-- 로우넘 사용하기 위해 SELECT 앞에 있어야 사용이 가능하므로 올려줌 //
+		<choose>
+			<when test="arrayboard != null and arrayboard == 'newboard'">
+			ORDER BY reg_dt DESC, board_no DESC
+			</when>
+			<when test="arrayboard != null and arrayboard == 'viewcount'">
+			ORDER BY view_cnt DESC, board_no DESC
+			</when>
+			<otherwise>
+			ORDER BY board_no DESC
+			</otherwise>
+		</choose>
+		-->
+		<!--  -->
+
+
+		<!-- 페이징 -->
+		LIMIT #{pointCount} OFFSET #{offsetData}
+
+
+		<!-- 	left outer join bt_tb_file  b  ON a.board_no = b.ref_pk; -->
+	</select>
+
+
+
+	<select id = "getBoardCount" parameterType="BoardListReqDto" resultType="int">
+		SELECT COUNT(board_no) FROM bt_tb_board board
+		inner join bt_tb_comm_code cd on board.category_cd = cd.comm_cd <!-- 추가 -->
+
+		<include refid="search"></include>
+
+	</select>
+	<select id="getBoardOne" parameterType="BoardGetDto" resultType="BoardGetDto" >
+		/* one 조회 */
+		select
+		board.board_no
+		,board.category_cd
+		,cd.comm_cd_nm as category_cd_nm
+		,board.title
+		,board.cont
+		,board.writer_nm
+	<!--,board.password -->
+		,board.view_cnt
+		,board.reg_dt
+		,board.mod_dt
+		/*,file_count*/
+		from bt_tb_board board
+		inner join bt_tb_comm_code cd on board.category_cd = cd.comm_cd
+		where board_no =  #{board_no}
+
+
+			<!-- ,file_count -->
+	</select>
+
+	<select id="selectPassword" parameterType="BoardGetDto" resultType="BoardGetDto">
+		/* password 조회 */
+		select
+			password
+		from
+			bt_tb_board
+		where
+			board_no = #{board_no}
+	</select>
+
+	<update id="boardUpdate" parameterType="BoardGetDto">
+	UPDATE
+		bt_tb_board
+	SET
+		category_cd = #{category_cd}
+		, title =#{title}
+		, cont=#{cont}
+		, password=#{password}
+		, mod_dt=now()
+	WHERE
+		board_no =#{board_no}
+	</update>
+
+	<!--useGeneratedKeys : insert 나 update 됨가 동시에 자동생성된 키를 가져올 수 있는 속성 true 설정(default : false)
+		keyProperty(매핑할 변수명) : 리턴 될 key property 설정 즉 values나 set 다음에 오는 컬럼명과 동일하게 설정 하면 됨 여러개를 사용한다면 콤마(,) 구분자로 설정
+		keyColumn([pk컬럼명] -->
+	<insert id="boardInsert" parameterType="BoardGetDto" useGeneratedKeys="true" keyProperty="board_no" keyColumn="board_no"><!-- ajax 에서 board_no 을 주기ㅣ 위해 board_no 이 널이 아니면 성공  -->
+		insert into bt_tb_board
+			(
+				category_cd
+				, title
+				, cont
+				, writer_nm
+				, password
+				,reg_dt
+			)
+		values
+			(
+				#{category_cd}
+				, #{title}
+				, #{cont}
+				, #{writer_nm}
+				, #{password}
+				, now()
+			)
+	</insert>
+
+	<select id="categoryGet" parameterType="BoardListReqDto" resultType="BoardDto">
+		/* 카테고리 출력 */
+		select
+			category_cd, count(*) cnt
+		from
+			bt_tb_board
+		group by
+			category_cd
+		having count(*)  &lt; 0;
+	</select>
+</mapper>

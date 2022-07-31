@@ -2,12 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.repository.BoardDao">
 
-<sql id="search">
+	<sql id="search">
 		<where>
 			<!-- 카테고리 -->
 			<if test="category != null and category!=''" >
 				AND category_cd = #{category} <!-- and category_cd = 'CTG001' -->
 			</if>
+
 			<!-- 검색어 select   -->
 			<if test="type != null and keyword !=''" ><!-- 공통으로 묶음 -->
 				<choose>
@@ -28,17 +29,22 @@
 					AND writer_nm  LIKE CONCAT('%', #{keyword}, '%')
 					</when>
 
-				<otherwise><!-- 전체조건에는 otherwise 로 뺴주어줌  -->
-				<!-- <when test="type == 1 "> otherwrise -->
-					AND (title LIKE CONCAT('%', #{keyword}, '%') OR cont LIKE CONCAT('%', #{keyword}, '%')
-					OR writer_nm LIKE CONCAT('%', #{keyword}, '%'))
-					<!-- </when> -->
-				</otherwise>
-			</choose>
+					<otherwise><!-- 전체조건에는 otherwise 로 뺴주어줌  -->
+					<!-- <when test="type == 1 "> otherwrise -->
+						AND (
+								title LIKE CONCAT('%', #{keyword}, '%')
+								OR cont LIKE CONCAT('%', #{keyword}, '%')
+								OR writer_nm LIKE CONCAT('%', #{keyword}, '%')
+							)
+						<!-- </when> -->
+					</otherwise>
+				</choose>
 			</if>
 		</where>
-</sql>
+	</sql>
+
 	<select id = "boardList" parameterType="BoardListReqDto" resultType="BoardDto">
+	/* 메인 List */
 	<!--  SELECT
 			board_no,
 			category_cd,
@@ -77,7 +83,7 @@
 			,board.title
 			,board.cont
 			,board.writer_nm
-			,board.password
+			<!-- ,board.password -->
 			,board.view_cnt
 			,board.reg_dt
 			,(select count(*) from bt_tb_file file where file.ref_pk = board.board_no) as file_count
@@ -117,40 +123,145 @@
 		<!-- 	left outer join bt_tb_file  b  ON a.board_no = b.ref_pk; -->
 	</select>
 
-<sql id=""></sql>
+
 
 	<select id = "getBoardCount" parameterType="BoardListReqDto" resultType="int">
-		SELECT COUNT(board_no) FROM bt_tb_board
+		/* 게시판 총 개수*/
+		select
+			count(board_no)
+		from
+			bt_tb_board board
+		inner join
+			bt_tb_comm_code cd
+		on
+			board.category_cd = cd.comm_cd <!-- 추가 -->
 
 		<include refid="search"></include>
 
 	</select>
-	<select id="getBoardOne" parameterType="BoardGetDto" resultType="BoardGetDto">
-
+	<select id="getBoardOne" parameterType="BoardGetDto" resultType="BoardGetDto" >
+		/* one 조회 */
 		select
-		board.board_no
-		,board.category_cd
-		,cd.comm_cd_nm as category_cd_nm
-		,board.title
-		,board.cont
-		,board.writer_nm
-		,board.password
-		,board.view_cnt
-		,board.reg_dt
-		,board.mod_dt
-		/*,file_count*/
-		from bt_tb_board board
-		inner join bt_tb_comm_code cd on board.category_cd = cd.comm_cd
-		where board_no =  #{board_no}
+			board.board_no
+			,board.category_cd
+			,cd.comm_cd_nm as category_cd_nm
+			,board.title
+			,board.cont
+			,board.writer_nm
+		<!--,board.password -->
+			,board.view_cnt
+			,date_format( board.reg_dt, '%Y%m%d%H%i%s') as reg_dt <!--  -->
+			,board.mod_dt
+			/*,file_count*/
+		from
+			bt_tb_board board
+		inner join
+			bt_tb_comm_code cd
+		on
+			board.category_cd = cd.comm_cd
+		where
+			board_no =  #{board_no}
 
 
 			<!-- ,file_count -->
 	</select>
 
 	<select id="selectPassword" parameterType="BoardGetDto" resultType="BoardGetDto">
+		/* password 조회 */
 		select
-		 password
-		from bt_tb_board
-		 where board_no = #{board_no}
+			password
+		from
+			bt_tb_board
+		where
+			board_no = #{board_no}
 	</select>
+
+	<update id="boardUpdate" parameterType="BoardGetDto">
+		/* update 수정*/
+		update
+			bt_tb_board
+		set
+			category_cd = #{category_cd}
+			, title =#{title}
+			, cont=#{cont}
+			<!-- , password=#{password} -->
+			, mod_dt=now()
+		where
+			board_no =#{board_no}
+		</update>
+
+	<!--useGeneratedKeys : insert 나 update 됨가 동시에 자동생성된 키를 가져올 수 있는 속성 true 설정(default : false)
+		keyProperty(매핑할 변수명) : 리턴 될 key property 설정 즉 values나 set 다음에 오는 컬럼명과 동일하게 설정 하면 됨 여러개를 사용한다면 콤마(,) 구분자로 설정
+		keyColumn([pk컬럼명] -->
+	<insert id="boardInsert" parameterType="BoardGetDto" useGeneratedKeys="true" keyProperty="board_no" keyColumn="board_no"><!-- ajax 에서 board_no 을 주기ㅣ 위해 board_no 이 널이 아니면 성공  -->
+		/* Insert 추가 */
+		insert into bt_tb_board
+			(
+				category_cd
+				, title
+				, cont
+				, writer_nm
+				, password
+				,reg_dt
+			)
+		values
+			(
+				#{category_cd}
+				, #{title}
+				, #{cont}
+				, #{writer_nm}
+				, #{password}
+				, now()
+			)
+	</insert>
+
+	<select id="categoryGet" parameterType="BoardCtgDto" resultType="BoardCtgDto">
+		/* 카테고리 출력 */
+
+		select
+			comm_cd
+			, comm_cd_nm
+		from bt_tb_comm_code btcc
+		where btcc.grp_cd = 'CTG'
+			and btcc.del_yn = 'N'
+		order by ord desc;
+
+<!-- 	select
+			board.category_cd
+			, btcc.comm_cd_nm
+		from
+			bt_tb_board board
+		right join
+			bt_tb_comm_code btcc
+		on
+			board.category_cd  = btcc.comm_cd
+		where
+			btcc.grp_cd='CTG'
+		and
+			btcc.del_yn ='N'; -->
+
+
+
+
+	</select>
+
+	<delete id ="boardDelete" parameterType="BoardGetDto">
+		/*게시물 삭제 */
+		delete
+		from
+			bt_tb_board
+		where
+			board_no = #{board_no};
+	</delete>
+
+	<update id="updateViewcnt" parameterType="int">
+		/*조회수 카운트 */
+		update
+			bt_tb_board
+		set
+			view_cnt= ifnull(view_cnt, 0) + 1  <!-- ifnull  null을 0으로 바꿔줌 -->
+		where
+			board_no = #{board_no}
+
+	</update>
 </mapper>

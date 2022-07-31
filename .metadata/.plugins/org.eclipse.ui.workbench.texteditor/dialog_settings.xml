@@ -6,23 +6,27 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value=" "/>
+		<item key="selection" value="board_pa"/>
 		<list key="findhistory">
-			<item value=" "/>
-			<item value="      "/>
-			<item value="boardNo"/>
-			<item value="searchBoardForm"/>
+			<item value="board_pa"/>
+			<item value="password"/>
+			<item value="board_pass"/>
+			<item value="&quot;"/>
+			<item value="board_no"/>
+			<item value="boardDetail"/>
+			<item value="boardUpdate"/>
 			<item value="detailForm"/>
-			<item value="detailtable"/>
-			<item value="Like"/>
-			<item value=",a."/>
-			<item value="a."/>
-			<item value="totalCount"/>
-			<item value="boardTotalCount"/>
-			<item value="com.example.demo.dto"/>
-			<item value="point"/>
+			<item value="boardNo"/>
+			<item value="boardView"/>
+			<item value="getboardDetail"/>
+			<item value="update_start"/>
+			<item value="updateS"/>
+			<item value="update"/>
+			<item value="searchBoardForm"/>
 		</list>
 		<list key="replacehistory">
+			<item value="&apos;"/>
+			<item value="searchBoardForm"/>
 			<item value=" "/>
 			<item value="LIKE"/>
 			<item value="board."/>
@@ -30,9 +34,9 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="539"/>
-		<item key="DIALOG_Y_ORIGIN" value="391"/>
-		<item key="DIALOG_WIDTH" value="369"/>
+		<item key="DIALOG_X_ORIGIN" value="138"/>
+		<item key="DIALOG_Y_ORIGIN" value="311"/>
+		<item key="DIALOG_WIDTH" value="370"/>
 		<item key="DIALOG_HEIGHT" value="454"/>
 		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
 	</section>

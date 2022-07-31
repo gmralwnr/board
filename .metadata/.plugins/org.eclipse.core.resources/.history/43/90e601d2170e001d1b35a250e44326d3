@@ -1,0 +1,38 @@
+package com.example.demo.repository;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.example.demo.dto.BoardCtgDto;
+import com.example.demo.dto.BoardDto;
+import com.example.demo.dto.BoardGetDto;
+import com.example.demo.dto.BoardListReqDto;
+import com.example.demo.dto.BoardSetDto;
+
+@Mapper
+public interface BoardDao {
+
+	//Board 전체리스트 가져오기
+	List<BoardDto> boardList(BoardListReqDto bkdto);
+
+	//총 카운트 수(페이징 처리)
+	int getBoardCount(BoardListReqDto bkdto);
+
+	//
+	BoardGetDto getBoardOne(int board_no);
+
+	BoardGetDto selectPassword(Integer board_no);
+
+	int boardUpdate(BoardSetDto bsdto);
+
+	int boardInsert(BoardSetDto bsdto);
+
+	List<BoardCtgDto> categoryGet();
+
+
+
+
+
+}
