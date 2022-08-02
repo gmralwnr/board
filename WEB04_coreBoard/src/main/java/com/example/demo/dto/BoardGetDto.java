@@ -2,6 +2,7 @@ package com.example.demo.dto;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 import lombok.Data;
 
@@ -25,7 +26,7 @@ public class BoardGetDto {
 	/** 조회수 */
 	private Integer view_cnt; //조회수
 	/** 작성일 */
-	private String reg_dt; //작성일  원래 Timestamp였음
+	private String reg_dt; //작성일  원래 Timestamp였음, Date
 	/** 수정일 */
 	private Timestamp mod_dt;
 	private String category_cd_nm;
@@ -37,4 +38,6 @@ public class BoardGetDto {
 	/** 시간까지 보여지도록  */
 	private String date;
 
+	private List<BoardFileDto> fileList;  //파일 리스트를 담기위해 Dto에도 담아줌
+	private int file_no;
 }

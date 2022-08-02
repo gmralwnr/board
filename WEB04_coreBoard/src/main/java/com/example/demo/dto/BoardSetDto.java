@@ -33,4 +33,5 @@ public class BoardSetDto {
 	private String resultMsg;
 	/** 등록수정구분 */
 	private String flag;
+
 }

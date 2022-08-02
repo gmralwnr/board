@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
+
 
 <meta charset="UTF-8">
 <title>코아메소드-초급자교육</title>
@@ -11,5 +9,3 @@
 <script src="resources/js/common.js"></script>
 <script src="resources/js/custom.js"></script>
 
-
-</head>

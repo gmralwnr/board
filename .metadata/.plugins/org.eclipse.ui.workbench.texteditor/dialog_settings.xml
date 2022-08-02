@@ -6,25 +6,27 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="board_pa"/>
+		<item key="selection" value="get"/>
 		<list key="findhistory">
+			<item value="get"/>
+			<item value="searchBoardForm"/>
+			<item value="\\"/>
+			<item value="   "/>
+			<item value="            "/>
+			<item value="getRealPath"/>
+			<item value="/update"/>
+			<item value="boardUpdate"/>
+			<item value="\"/>
+			<item value="/boardPassword"/>
 			<item value="board_pa"/>
 			<item value="password"/>
 			<item value="board_pass"/>
 			<item value="&quot;"/>
 			<item value="board_no"/>
-			<item value="boardDetail"/>
-			<item value="boardUpdate"/>
-			<item value="detailForm"/>
-			<item value="boardNo"/>
-			<item value="boardView"/>
-			<item value="getboardDetail"/>
-			<item value="update_start"/>
-			<item value="updateS"/>
-			<item value="update"/>
-			<item value="searchBoardForm"/>
 		</list>
 		<list key="replacehistory">
+			<item value="/"/>
+			<item value="&#x09;"/>
 			<item value="&apos;"/>
 			<item value="searchBoardForm"/>
 			<item value=" "/>

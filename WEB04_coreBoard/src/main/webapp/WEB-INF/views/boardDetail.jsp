@@ -12,6 +12,7 @@
 		//Detail 정보 가져와서 뿌릴 때
 		$(document).ready(function(){
 				detail();
+				//ajax 파일 리스트 조회 추가
 		})
 
 		function detail(){
@@ -40,10 +41,10 @@
 					$("#password").text(result.password);  //수정할 때 필요?
 					$("#view_cnt").text(result.view_cnt);
 
+					//시간 쪼개기 실행된 결과 값으로 자바로 돌릴 수 없음 동적 jstl 사용이 불가 html 이 만들어지기 전에 사용 가능
 					console.log(result.reg_dt);
 
 					let reg_dt_temp = result.reg_dt;
-
 					let reg_dt_real  = reg_dt_temp.substring(0,4); // yyyy
 						reg_dt_real += "-";
 						reg_dt_real += reg_dt_temp.substring(4,6); // mm
@@ -74,7 +75,7 @@
 	 		window.open(url, "PASSWORD찾기", opt);
 			} */
 
-		//수정 & 삭제 팝업창
+		//수정 & 삭제 팝업창 .. 컨트롤러에서 비교하기 때문에 창만열어줌
 		function openWin(url, name){
 			//var url ="boardPassword";
 			var opt ="toolbar=no, memubar=no,status=no,  scrollbars=no, resizable=no, width=700, height=400, top=50, left=300" ;
@@ -92,8 +93,8 @@
 		//팝업창에서 삭제로 넘어가는 함수
 	 	function deleteboard(){
 	 		$("#searchBoardForm").attr("onsubmit", '');
-			$("#searchBoardForm").attr("method", 'post');
-
+			$("#searchBoardForm").attr("method", "post");
+//			$("#searchBoardForm #_method").val("method", "delete");
 	 		$("#searchBoardForm").attr("action", "/boardDeleteForm");
 			$('#searchBoardForm').submit();
 	 	}
@@ -127,7 +128,7 @@
 				<h3 class="h3-tit">통합게시판</h3>
 			</div>
 		<!-- 검색조건 유지  -->
-		<form name="search" id="searchBoardForm" method="post" ><!--  -->
+		<form name="search" id="searchBoardForm" method="post">
 				<input type="hidden" name="currentPage" id="currentPage" value="${brdto.currentPage}"/>
 				<input type="hidden" name="pointCount" id="pointCount"  value="${brdto.pointCount}" />  <!-- form 밖에 있는것을 담아오기 위해 input hidden  을 사용 -->
 				<input type="hidden" name="offsetData" id="offsetData" value="${brdto.offsetData}" />
@@ -136,9 +137,10 @@
 				<input type="hidden" name="category" id="category" value="${brdto.category}">
 				<input type="hidden" name="arrayboard" id="arrayboard" value="${brdto.arrayboard}">
 				<input type="hidden" value="${board_no}" name="board_no" id="board_no">
+				<input type="hidden" name="_method" id="_method">
 			<!-- //	<input type="hidden" name="board_no" id="board_no"/> -->
 		</form>
-
+		<!-- 검색조건 유지때문에form을 하나로 만듦 -->
 		<!-- 디테일 form  -->
 		<!-- <form name="boardView" id="boardView" onsubmit="return false;"  action="/boardUpdateForm"> -->
 		<%-- 	<input type="hidden" value="${board_no}" name="board_no" id="board_no">  --%><!-- board_no을 받아옴 ajax 뿌리기전 boardDetail  -->
@@ -171,10 +173,13 @@
 			</tr>
 			<tr>
 				<th class="fir">첨부파일</th>
-				<td colspan="3">
-					<span><a href="#">상담내역1.xlsx</a></span>
+				<td colspan="3" id="file_area">
+				<!-- 
+					<span>fresult</span>
 					<br />
 					<span><a href="#">상담내역2.xlsx</a></span>
+				 -->
+				 
 				</td>
 			</tr>
 			</tbody>
@@ -182,8 +187,8 @@
 
 			<div class="btn-box r">
 				<!-- <a href="javascript:void(0);" class="btn btn-green" onclick="boardwriter()">수정</a> -->
-				<a href="javascript:void(0);" class="btn btn-green" onclick="openWin('boardPassword?board_no=${board_no}', 'update')"  >수정</a>
-				<a href="javascript:void(0);" class="btn btn-red"  onclick="openWin('boardPassword?board_no=${board_no}', 'delete')">삭제</a>
+				<a href="javascript:void(0);" class="btn btn-green" onclick="openWin('/boardPassword', 'update')"  >수정</a>
+				<a href="javascript:void(0);" class="btn btn-red"  onclick="openWin('/boardPassword', 'delete')">삭제</a>
 				<a href="javascript:void(0);" class="btn btn-default"  onclick="boardList()">목록</a>
 			</div>
 <!-- </form> -->

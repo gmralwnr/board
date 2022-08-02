@@ -22,6 +22,7 @@
 		<item key="WizardZipFileResourceExportPage1.STORE_CREATE_STRUCTURE_ID" value="true"/>
 		<item key="WizardZipFileResourceExportPage1.STORE_COMPRESS_CONTENTS_ID" value="true"/>
 		<list key="WizardZipFileResourceExportPage1.STORE_DESTINATION_NAMES_ID">
+			<item value="C:\Users\gmral\OneDrive\바탕 화면\20220801.zip"/>
 			<item value="C:\Users\gmral\OneDrive\바탕 화면\20220729.zip"/>
 			<item value="C:\Users\gmral\OneDrive\바탕 화면\20220727.zip"/>
 			<item value="C:\Users\gmral\OneDrive\바탕 화면\20220722.zip"/>

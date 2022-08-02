@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.example.demo.dto.BoardCtgDto;
 import com.example.demo.dto.BoardDto;
+import com.example.demo.dto.BoardFileDto;
 import com.example.demo.dto.BoardGetDto;
 import com.example.demo.dto.BoardListReqDto;
 import com.example.demo.dto.BoardSetDto;
@@ -40,6 +41,18 @@ public interface BoardDao {
 
 	/** 게시판 조회수 */
 	int updateViewcnt(int board_no);
+
+	int fileUploadInsert(BoardFileDto bfdto);
+
+	int fileUploadUpdate(BoardFileDto bfdto);
+
+	/** 파일 List */
+	List<BoardFileDto> getFileOne(String ref_pk);
+
+	/** file_no 가져오기 */
+	BoardFileDto file_no_Select(String ref_pk);
+
+
 
 
 

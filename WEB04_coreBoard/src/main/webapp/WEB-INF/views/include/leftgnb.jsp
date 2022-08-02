@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
+
 	<div id="lm">
 			<h2 class="h2-tit"><strong>커뮤니티</strong></h2>
 			<ul id="snb">
@@ -13,6 +9,5 @@
 				<li class="snb3"><a href="#">웹에디터</a></li>
 			</ul><!-- /snb -->
 		</div><!-- /lm -->
-</body>
-</html>
+
 

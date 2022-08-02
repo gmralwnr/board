@@ -53,6 +53,23 @@
 					$("#view_cnt").val(result.view_cnt);
 					$("#reg_dt").val(result.reg_dt);
 
+					let fileList = result.fileList;
+
+
+					for(var i=0; i<fileList.length; i++){
+					/*  let origin_file_nm = fileList[i].origin_file_nm;
+					 let file_no = fileList[0].file_no; */
+					 alert("파일 명  : " +  fileList[i].origin_file_nm);
+					 alert("파일 명  : " +  fileList[i].file_no);
+					 $("#origin_file_nm1").text(fileList[0].origin_file_nm);
+					 $("#origin_file_nm2").text(fileList[1].origin_file_nm);
+					 $("#origin_file_nm3").text(fileList[2].origin_file_nm);
+					 $("#file_no1").text(fileList[0].file_no);
+					 $("#file_no2").text(fileList[1].file_no);
+					 $("#file_no3").text(fileList[2].file_no);
+
+
+					}
 				},
 				error :function(){
 					console.log("update() 오류");
@@ -61,7 +78,7 @@
 		} //update() 끝, 메소드가 끝날 땐 ; 안찍음
 
 		function update_start(){
-			let board_no = $("#board_no").val();
+			let board_no = $("#board_no").val(); //board_no를 변수에 담아서 사용하기
 			//let writertrim = $("#writer_nm").val();
 			// $("#writer_nm").val(writertrim.trim());
 			/*if(document.boardUpdate.password.value.length==0){
@@ -115,11 +132,21 @@
 
 		//update 실행  ajax
 		function update(){
+
+			var form = $('#boardUpdate')[0];  //serize
+			var data = new FormData(form); //data에 form 을 담아서 객체 자체를 넘겨줌
+
+			alert(data);
+
 			$.ajax({
 				url			:	"/update",
+				enctype		: "multipart/form-data",	//파일 업로드 시 필수
 				type		: 	"POST",
 				dataType	:	"json",
-				data		: $("#boardUpdate").serialize(),
+				processData	:	 false,		//파일 업로드 시 필수
+				contentType	:	false,		//파일 업로드 시 필수
+				data		:	data,		//form 변수를 만들어서 boardUpade form 을 담고
+								//$("#boardUpdate").serialize(),
 				success :function(result){
 					//resultMap
 					console.log("result : " , result);
@@ -137,7 +164,7 @@
 
 					if(flag=="update"){ // 업데이트 하면 디테일로 넘어감
 						$("#board_no").val(board_no);  //id값에 board_no을 담아줌
-					//	$("serachBpardForm").attr("method", "post");
+					//	$("boardUpdate").attr("method", "post");
 						$("#boardUpdate").attr("action", "/boardDetail").submit();
 
 						$("#boardUpdate").submit(); //board_no가 담아져 있는 form id값을 submit 함 post로 보내기 위한 것 !
@@ -162,9 +189,13 @@
 		function writercancel2(){
 		//	$("#searchBoardForm").attr("onsubmit", '');
 		//	$("#boardView").attr("method", 'get');
+		//	$("#searchBoardForm").attr("method", "post");
+
 			$("#boardUpdate").attr("onsubmit", '');
-			//$("#searchBoardForm").attr("method", "post");
+			$("#boardUpdate").attr("method", "post");
 			$('#boardUpdate').attr("action", "/").submit();
+
+
 		}
 
 	</script>
@@ -186,10 +217,6 @@
 						<h3 class="h3-tit">통합게시판</h3>
 					</div>
 
-				<!--
-						<li class="snb2"><a href="#">파일업로드</a></li>
-						<li class="snb3"><a href="#">웹에디터</a></li>
-				-->
 				<!-- 검색조건 유지  -->
 				<!--
 				<form id="boardDetail" name="boardDetail" method="post" action="/boardDetail">
@@ -197,7 +224,8 @@
 					<input type="hidden" name="board_no" id="detail_board_no"/>id값으로 담아서 post로 감
 				</form>
  				-->
-				<form id="boardUpdate" name="boardUpdate" method="post"  ><!-- action에 담아서 한번에  -->
+
+				<form id="boardUpdate" name="boardUpdate" method="post"  enctype="multipart/form-data"><!-- action에 담아서 한번에  -->
 
 					<input type="hidden" name="currentPage" id="currentPage" value="${brdto.currentPage}"/>
 					<input type="hidden" name="pointCount" id="pointCount"  value="${brdto.pointCount}" />  <!-- form 밖에 있는것을 담아오기 위해 input hidden  을 사용 -->
@@ -260,26 +288,27 @@
 									<textarea style="white-space:pre-wrap; width:100%; height:300px;" id="cont" name="cont"></textarea>
 								</td>
 							</tr>
-							<tr>
+							<!----> <tr>
 								<th class="fir">첨부파일 1 <i class="req">*</i></th>
-								<td colspan="3">
-									<span><a href="#">상담내역1.xlsx</a> <a href="#" class="ic-del">삭제</a></span>
+								<td colspan="3" >
+									<span><a href="#" id="origin_file_nm1"></a> <c:if test="${not empty file_no }"><a href="#" class="ic-del">삭제</a></c:if></span>
 									<br />
-									<input type="file" class="input block mt10">
+									<input type="file" name="uploadFile" class="input block mt10">
 								</td>
 							</tr>
 							<tr>
 								<th class="fir">첨부파일 2</th>
-								<td colspan="3">
-									<span><a href="#">상담내역2.xlsx</a> <a href="#" class="ic-del">삭제</a></span>
+								<td colspan="3" >
+									<span><a href="#" id="origin_file_nm2"></a> <c:if test="${ empty file_no }"><a href="#" class="ic-del">삭제</a></c:if></span>
 									<br />
-									<input type="file" class="input block mt10">
+									<input type="file" name="uploadFile" class="input block mt10">
 								</td>
 							</tr>
 							<tr>
 								<th class="fir">첨부파일 3</th>
 								<td colspan="3">
-									<input type="file" class="input block mt10">
+									<span><a href="#" id="origin_file_nm3"></a> <c:if test="${not empty file_no }"><a href="#" class="ic-del">삭제</a></c:if></span>
+									<input type="file" name="uploadFile" class="input block mt10">
 								</td>
 							</tr>
 						</tbody>

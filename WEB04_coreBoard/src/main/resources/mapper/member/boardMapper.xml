@@ -13,7 +13,7 @@
 			<if test="type != null and keyword !=''" ><!-- 공통으로 묶음 -->
 				<choose>
 					<when test="type == 2 ">
-					AND title LIKE CONCAT('%', #{keyword}, '%')
+					AND title LIKE CONCAT('%',#{ #{keyword}, '%')
 					</when>
 
 					<when test="type == 3   ">
@@ -125,7 +125,7 @@
 
 
 
-	<select id = "getBoardCount" parameterType="BoardListReqDto" resultType="int">
+	<select id = "getBoardCount" parameterType="BoardListReqDto" resultType="int"><!-- resultType=int 결과 값이 int값이라서 -->
 		/* 게시판 총 개수*/
 		select
 			count(board_no)
@@ -150,7 +150,7 @@
 			,board.writer_nm
 		<!--,board.password -->
 			,board.view_cnt
-			,date_format( board.reg_dt, '%Y%m%d%H%i%s') as reg_dt <!--  -->
+			,date_format( board.reg_dt, '%Y%m%d%H%i%s') as reg_dt <!-- 시간을 String 으로 받아오기 H 시간은 24시간 표시 h : 12시간 표시 -->
 			,board.mod_dt
 			/*,file_count*/
 		from
@@ -251,7 +251,7 @@
 		from
 			bt_tb_board
 		where
-			board_no = #{board_no};
+			board_no = #{board_no}
 	</delete>
 
 	<update id="updateViewcnt" parameterType="int">
@@ -264,4 +264,84 @@
 			board_no = #{board_no}
 
 	</update>
+
+	<insert id="fileUploadInsert" parameterType="BoardFileDto" useGeneratedKeys="true" keyProperty="file_no" keyColumn="file_no">
+		insert into
+			bt_tb_file
+			(
+				origin_file_nm
+				,save_file_nm
+				,save_path
+				,ext
+
+				,size
+				,ref_tbl
+				,ref_pk
+				,ref_key
+				,download_cnt
+
+				,ord
+				,reg_dt
+			)
+		values(
+				#{origin_file_nm}
+				,#{save_file_nm}
+				,#{save_path}
+				,#{ext}
+				,#{size}
+
+				,#{ref_tbl}
+				,#{ref_pk}
+				,#{ref_key}
+				,#{download_cnt}
+
+				,#{ord}
+				,now()
+			)
+
+	</insert>
+	<select id="getFileOne"  parameterType="BoardFileDto" resultType="BoardFileDto">
+		select
+			file_no
+			, origin_file_nm
+			, download_cnt
+			, ord
+		from
+			bt_tb_file
+		where
+			ref_pk = #{ref_pk}
+	</select>
+
+	<select id="file_no_Select" parameterType="BoardFileDto" resultType="BoardFileDto">
+		select
+			file_no
+		from
+			bt_tb_file
+		where
+			ref_pk=#{ref_pk}
+
+
+	</select>
+
+	<!-- <update id="fileUploadUpdate"  parameterType="BoardFileDto">
+			/* 파일업로드 수정 */
+			update
+				bt_tb_file
+			set
+				origin_file_nm = #{origin_file_nm}
+				,save_file_nm = #{save_file_nm}
+				,save_path =#{save_path}
+				,ext = #{ext}
+
+				,size	= #{size}
+				,ref_tbl = #{ref_tbl}
+				,ref_pk =	#{ref_pk}
+
+				,ref_key =#{ref_key}
+				,download_cnt = #{download_cnt}
+
+				,ord = #{ord}
+				,reg_dt = now()
+
+	</update> -->
 </mapper>

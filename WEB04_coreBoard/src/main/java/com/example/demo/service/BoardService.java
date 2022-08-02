@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.BoardCtgDto;
 import com.example.demo.dto.BoardDto;
+import com.example.demo.dto.BoardFileDto;
 import com.example.demo.dto.BoardGetDto;
 import com.example.demo.dto.BoardListReqDto;
 import com.example.demo.dto.BoardSetDto;
@@ -71,6 +72,28 @@ public class BoardService {
 
 		return bdao.updateViewcnt(board_no);
 	}
+
+	public int fileUploadInsert(BoardFileDto bfdto) {
+
+		return bdao.fileUploadInsert(bfdto);
+
+	}
+
+	public int fileUploadUpdate(BoardFileDto bfdto) {
+
+		return bdao.fileUploadUpdate(bfdto);
+	}
+
+	public List<BoardFileDto> getFileOne(String ref_pk) {
+
+		return bdao.getFileOne(ref_pk);
+	}
+
+	public BoardFileDto file_no_Select(String ref_pk) {
+
+		return bdao.file_no_Select(ref_pk);
+	}
+
 
 
 
