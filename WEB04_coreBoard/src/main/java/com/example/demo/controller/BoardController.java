@@ -1,7 +1,19 @@
 package com.example.demo.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URLEncoder;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,15 +21,22 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.DefaultNamingPolicy;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,8 +54,6 @@ import com.example.demo.dto.BoardListReqDto;
 import com.example.demo.dto.BoardSetDto;
 import com.example.demo.dto.Paging;
 import com.example.demo.service.BoardService;
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 @Controller
 public class BoardController {
@@ -96,8 +113,6 @@ public class BoardController {
 			List<BoardDto> boardList = bs.boardList(bkdto);
 
 			int count = bs.getBoardCount(bkdto);
-			// 페이징
-			Paging paging = new Paging();
 
 			// 검색어 리스트 가져오기
 			// BoardListReqDto boardkeyList = new BoardListReqDto();
@@ -154,7 +169,7 @@ public class BoardController {
 	public BoardGetDto getboardDetail(@RequestParam(value="board_no", required=true) Integer board_no /* Model model*/){
 			System.out.println("dfdfdsfd:!!!!!!!!!!!!!" + board_no );
 
-			int view_cnt=bs.updateViewcnt(board_no);  //파라미터로 받은 값으로 전달
+			int view_cnt=bs.updateViewcnt(board_no);  //파라미터로 받은 값으로 전달 바로 cunt 업 되게
 			BoardGetDto bgdto =bs.getBoardOne(board_no);
 
 
@@ -163,6 +178,16 @@ public class BoardController {
 			//String date = df.format(bgdto.getReg_dt());
 			//	int view_cnt=bs.updateViewcnt(bgdto.getBoard_no());
 
+
+			String ref_pk = Integer.toString(board_no);
+			List<BoardFileDto> fileList = bs.getFileOne(ref_pk);
+			//fileList size 체크를 해주는 이유는 만약 파일이 없다면 파일 도 조회되어 조회가 안되면 안나올 수 있으므로 1개라도 조회할 수 있게
+			if(fileList.size() > 0) {
+				bgdto.setFileList(fileList);  //파일을 List로 가져오는 경우는 하나의 board_no 에 파일이 3개까지 들어있으니 List로 가져와서 boardGetDto 에 담아준다
+			//	int filecount = fileList.size() ;*********
+			//	bgdto.setFilecount(filecount);
+
+			}
 
 			System.out.println("!!!!!!!!!!!뷰 카운트 :  "+ bgdto.getView_cnt());
 			System.out.println("board_no:" + board_no);
@@ -258,26 +283,37 @@ public class BoardController {
 		//카테고리 리스트
 		List<BoardCtgDto> categoryList =bs.categoryGet();
 
-		//file no 가져오기
-		/*
-		String ref_pk = Integer.toString(board_no);
-		BoardFileDto bfdto = bs.file_no_Select(ref_pk);
-		int file_no = bfdto.getFile_no();
-*/
-/*
-	*/
+
+		int count=0;
 		String ref_pk = Integer.toString(board_no);
 		  List<BoardFileDto> fileList = bs.getFileOne(ref_pk);
-		  bgdto.setFileList(fileList);  //파일을 List로 가져오는 경우는 하나의 board_no 에 파일이 3개까지 들어있으니 List로 가져와서 boardGetDto 에 담아준다
-		  System.out.println("❤❤❤❤❤❤❤❤❤❤" + fileList);
-		  System.out.println("❤❤❤❤❤❤❤❤❤❤/n" +fileList.get(0).getFile_no() );
+
+		//fileList size 체크를 해주는 이유는 만약 파일이 없다면 파일 도 조회되어 조회가 안되면 안나올 수 있으므로 1개라도 조회할 수 있게
+		  if(fileList.size() >0) {
+			  bgdto.setFileList(fileList);  //파일을 List로 가져오는 경우는 하나의 board_no 에 파일이 3개까지 들어있으니 List로 가져와서 boardGetDto 에 담아준다
+
+
+			  for(BoardFileDto bfdto : fileList) { //fileList를 dto 에 담아서 개수 체크 해줘서 x박스 뜨게하기
+				  System.out.println(count + " 번쨰 " + bfdto);
+				  count ++;
+				 // model.addAttribute("ref_pk", bfdto.getRef_pk()); //필요할까...?
+				  System.out.println("\n\n\n SaveFileName : " + bfdto.getSave_file_nm());
+				  //★조회할 때도 for문 안에서 돌리기 파일 조회가 안되었을 경우 에러남
+				  System.out.println( model.addAttribute("count", count));
+				  System.out.println("❤❤❤❤❤❤❤❤❤❤/n" +fileList.get(0).getFile_no() );
+
+			  }
+
+		  }
+		  model.addAttribute("bfdto", fileList);
+		  model.addAttribute("count", count); //파일 업로드 x박스 (delete)여부
 
 
 
 		model.addAttribute("category", categoryList);
 		model.addAttribute("board_no", board_no);
-		model.addAttribute("file_no", fileList.get(0).getFile_no());
-		//System.out.println("파일 넘버어어어어어어어어엉 : " + file_no );
+
+		//model.addAttribute("file_no", fileList.get(0).getFile_no());
 		return "boardwrite";
 	}
 
@@ -293,8 +329,10 @@ public class BoardController {
 
 		  String ref_pk = Integer.toString(board_no);
 		  List<BoardFileDto> fileList = bs.getFileOne(ref_pk);
-		  bgdto.setFileList(fileList);  //파일을 List로 가져오는 경우는 하나의 board_no 에 파일이 3개까지 들어있으니 List로 가져와서 boardGetDto 에 담아준다
 
+		  if(fileList.size() > 0) {
+		  bgdto.setFileList(fileList);  //파일을 List로 가져오는 경우는 하나의 board_no 에 파일이 3개까지 들어있으니 List로 가져와서 boardGetDto 에 담아준다
+		  }
 
 
 			model.addAttribute("getBoard", bgdto);
@@ -308,8 +346,15 @@ public class BoardController {
 	@ResponseBody
 	public BoardSetDto update(Model model, BoardSetDto bsdto, HttpServletRequest request
 			, MultipartFile[] uploadFile // <input> file type name이랑 변수명이랑 똑같다.
-		) {
-/*
+		) throws Exception { //트랜잭션 하려고 service 에 옮김
+
+
+		BoardSetDto resultDto = null;
+		resultDto = bs.update(bsdto, uploadFile);
+		//트랜잭션으로 서비스 넘어감 !!!
+
+
+		/*
 		// 0. MultipartFile[] 로 파일이 가져왔는지 확인 !
 		System.out.println("UPLOADFILE 확인 : "+ uploadFile[0] );
 		System.out.println("UPLOADFILE 확인 : "+ uploadFile[1] );
@@ -388,143 +433,8 @@ public class BoardController {
 		// 3.  있는것까지만 저장해 놓기
 */
 /////////////////////////////////////////////////////////////////아래는 업로드 성공 시
-		BoardGetDto bgdto = new BoardGetDto();
 
-		String resultMsg ="";  //BoardSetDto 에 담겨져있음
-		int result =0;
-
-		//****board_no가 조회 될 때는 update 구문
-		if(bsdto.getBoard_no()!=null && bsdto.getBoard_no() !=0) {//equals 쓰기
-
-			result = bs.boardUpdate(bsdto);  //update 나 insert 할 경우 성공하게 되면 1이 출력 됨 //성공한 건에 대한 개수
-			System.out.println("update board_no" + bsdto.getBoard_no());
-
-
-			if(result == 0) { //update 를 result 에 담아서 0이라면 실패 // if긍정적 else부정
-				resultMsg ="수정 실! 패! ㅜㅜㅜ";
-			}else { //수정이 완료 되면 1 이 뜰 테니 수정 성공
-				resultMsg ="수정 완료입니다~~❤️";
-				bsdto.setFlag("update");
-			}
-
-		//****board_no 가 없을경우 insert
-		}else {
-
-			//리절트로 선언해서 받기
-			bs.boardInsert(bsdto);
-
-			System.out.println("insert board_no 성공!!" + bsdto.getBoard_no());
-
-			if(bsdto.getBoard_no() !=0) {
-
-				//bsdto.getBoard_no();
-				resultMsg="등록 완료 입니다 ~!!";
-				bsdto.setFlag("insert");
-
-			}else {
-				resultMsg="등록 실패입니다 입니다 ~!!";
-			}
-		}
-
-
-
-		//등륵 1.물리적 파일 저장   2.파일  DB저장
-		//보드넘이 있으면 슈정 ㅡ,ㅡ 없으면 등록
-
-/////////////////////////////////////파일 업로드
-
-			// 0. MultipartFile[] 로 파일이 가져왔는지 확인 !
-		System.out.println("UPLOADFILE 확인 : "+ uploadFile[0] );
-		System.out.println("UPLOADFILE 확인 : "+ uploadFile[1] );
-			// 1. uploadFile 에 null 체크 파일 들어있는지 1개 이상은 무조건 있겠져.
-		BoardFileDto bfdto = new BoardFileDto();
-		String dirName = "C:/JAVA02/WEB04_coreBoard/src/main/webapp/upload/"; //업로드 할 파일 경로
-
-		try {
-			//2.폴더가 생성이 안되면 생성 시기기
-			File folder = new File(dirName);  //dirName 폴더 가져오기
-
-			if (!folder.exists()) folder.mkdirs();  //폴더가 없으면 만들어서 생성 하기 dirName 디렉토리에서
-
-			//저장파일명 - 이름값 변경 위한 설정
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");  //이름값 변경을 위한 설정, 위로 뺴준 이유는 매모리 잡아 먹어서
-			int rand =(int)(Math.random()*1000);
-
-			int fresult = 0;
-
-				//3. 업로드 파일이 3개 이상이니 반복문으로 체크 후 저장될 변수 조회
-			for( int i=0; i<uploadFile.length; i++ ) { //파일 업로드 가 총 3개씩 올라가니까 length 를 줘서 반복문 돌리기
-
-				String fileName = uploadFile[i].getOriginalFilename(); //오리진 파일 네임을 담음
-
-				if( "".equals(fileName) || fileName == null ) continue;  //continue : 멈추면 다음걸로 증감해서 다시 돎, breake 는 끊켜서 안도는데 countinue 는 다음게 없으면 다시 차례대로 돌아서 검사함
-
-				//기존 파일 이름을 받고 확장자 저장
-				String ext 		= fileName.substring(fileName.lastIndexOf(".") +1);  //+1은 .을 빼고 난 뒤를 찾기 위해서
-
-				//파일 이름 변경
-				String reName =sdf.format(System.currentTimeMillis()) + "_" +rand + "." + ext;
-
-				//이름을 변경한 파일을 dirName(디렉토리)에 저장
-				//File destination = new File(dirName + File.separator + uploadFile[i].getOriginalFilename()); //오리진 파일로 저장되서 reName으로 변경
-				File destination = new File(dirName + File.separator + reName); //저장할 파일이름
-
-				System.out.println("ORIGIN 파일 : " + destination);
-				System.out.println("원본파일명 : " + fileName);
-				System.out.println("확장자 : " +  ext);
-				System.out.println("변경한 파일 이름 : " + reName);
-
-					//4.폴더에 저장
-				uploadFile[i].transferTo(destination);  //transferTo 파일 데이터를 지정한 file 로 폴더에 저장
-
-					//디비저장 할껀데
-					// 0. dto 만들고 > 컬럼대로 object 만들기
-					// 1. set 해서 담고 인서트
-					//
-				bfdto.setOrigin_file_nm(fileName);
-				bfdto.setSave_file_nm(reName);
-				bfdto.setSave_path(dirName);
-				//bfdto.setSize(uploadFile[i].getSize());
-				byte eee = (byte) uploadFile[i].getSize();
-				bfdto.setSize(eee & 0xff);
-				bfdto.setRef_tbl(file_ref_tbl_board);
-				String file_board_no = Integer.toString(bsdto.getBoard_no());
-				bfdto.setRef_pk(file_board_no);
-				bfdto.setRef_key(file_ref_key_board);
-				//System.out.println("파일사이즈ㅜ " + bfdto.getSize() );
-				bfdto.setExt(ext);
-				bfdto.setOrd(i +1); //0부터 시작하기 떄문에 +1을 해줌 순서 1,2,3
-
-				System.out.println("파일 업로드 보드넘 : " + file_board_no);
-				System.out.println("파일 순서 :  " + i +1);
-
-
-				//fresult +=bs.fileUploadUpdate(bfdto);
-
-
-				//insert
-				System.out.println("dsdsd" +  bfdto.getFile_no());
-				fresult +=	bs.fileUploadInsert(bfdto);
-				if(fresult>0) {
-					bfdto.getFile_no();
-					System.out.println(bfdto.getFile_no());
-					resultMsg ="파일 등록완료";
-				}else {
-					resultMsg ="파일업로드 실패";
-				}
-
-			}
-
-		} catch (Exception e){
-
-		}
-
-
-
-		bsdto.setResultMsg(resultMsg);  //bsdto 에 담기 위해 BoardSetDto 필드변수 생성 해야함
-
-		return bsdto;
-
+		return resultDto;  //resultDto 가 ajax로 이동
 	}
 
 
@@ -544,16 +454,119 @@ public class BoardController {
 
 	//삭제
 	@PostMapping("/boardDeleteForm")
-	//@ResponseBody
-		public String boardDeleteForm(BoardGetDto bgdto){
+	@ResponseBody
+		public int boardDeleteForm(BoardGetDto bgdto/*, BoardFileDto bfdto */) throws Exception{
+		int result = 0;
+		result = bs.boardAllDeleteForm(bgdto/* , bfdto */);
 
-		int result = bs.boardDelete(bgdto);
-		System.out.println("삭제 결과 : " + result);
-		System.out.println("board삭제" + bgdto);
 
-		return "redirect:/";
+
+
+
+
+		return result;
 	}
 
+	//@DeleteMapping("boardFileDelete")
+	@PostMapping("boardFileDelete")
+	@ResponseBody
+	public int boardFileDelete( @RequestParam(value = "file_no", required=true) int file_no , BoardFileDto bfdto
+		/*, @RequestParam(value="board_no") int board_no*/) throws Exception {
+
+			//int로 담아서 삭제가 되었는지 확인 후 result 로 반환을 해줌
+
+			int result = 0;
+			result =bs.deleteBoardFile(file_no, bfdto);
+
+			/*
+			int result =0;
+			bfdto = bs.selectFile(file_no);  //bfdto에 담아야하기때문에 get으로 가져와야해서 선언함 save_nm, save_path를 불러오기 위해서 select 함
+			System.out.println(bfdto.getSave_path() + bfdto.getSave_file_nm()  );
+			String save_fileName = bfdto.getSave_path() + bfdto.getSave_file_nm();
+			Path filePath = Paths.get(save_fileName);
+
+
+
+				//파일 삭제
+				try {
+
+						Files.delete(filePath);
+						System.out.println("삭제완료 ");
+
+				} catch (NoSuchFileException e) {
+					System.out.println("삭제하려는 파일/디렉토리가 없습니다");
+				} catch (IOException e) {
+
+					e.printStackTrace();
+				}
+
+			System.out.println("야야야야야야" + file_no);
+			result = bs.boardFileDelete(file_no);
+		*/
+		return result;
+	}
+
+
+	@GetMapping("/filedownload")
+	public void fileDownload(@RequestParam("file_no") int file_no, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		//String directory = "C:/JAVA02/WEB04_coreBoard/src/main/webapp/upload/";
+		//String files[] =new File(directory).list();
+
+		//파일정보 조회
+		BoardFileDto bfdto = bs.fileNumSelect(file_no);
+
+		//파일명 가져오기 (오리진 네임과 , 경로 찾을 save파일네임)
+		String origin_fileName = bfdto.getOrigin_file_nm();
+		String save_fileName = bfdto.getSave_file_nm();
+		System.out.println("fileName" + save_fileName);
+
+		//파일이 실제 업로드 되어있는 (파일이 존재하는 )경로를 지정을 가져오기
+		String filePath = bfdto.getSave_path();
+				//"C:/JAVA02/WEB04_coreBoard/src/main/webapp/upload/";
+
+		//경로와 파일명으로 파일 객체 생성, 폴더안엔 save_fileName 으로 지정 되어있기떄문에 save파일로 찾음
+		File file = new File(filePath,save_fileName);
+
+		//파일 데이터를 알려줌 (확장자)
+		//String mimeType = getServletContext().getMimeType(file.toString());
+		String mimeType = bfdto.getExt();
+		if(mimeType ==null ) { //오류가 발생하지 않도록 무조건 다운로드 되도록 설정
+			response.setContentType("appliction/octet-stream");  //파일주고 받을떄 필수!!!응답할 정보 데이터 받을 곳이 파일데이터인지 . 이진데이터 형식 octet-stram
+		}//내가 받는 파일이구나라는 걸 알 수 있음
+
+		//실제 다운로드 받을 네임 지정
+		String downloadName =null;
+		//인터넷 익스플로우 =MSIE 다운로드가 아니라 다운 브라우저라면
+		if(request.getHeader("user-agent").indexOf("MSIE") == -1) {  //익스플로우가 아니라면 아니라면
+			downloadName = new String(origin_fileName.getBytes("UTF-8"), "8859_1"); //바꿔줌 8859_1
+		}else {
+			downloadName =new String(origin_fileName.getBytes("EUC-KR"), "8859_1");
+		}
+		response.setHeader("Content-Disposition", "attachment;filename=\""
+				+ downloadName + "\";");   //oringinName으로 다운로드 수행 setHeader
+
+		FileInputStream fileInputStream = new FileInputStream(file);
+		ServletOutputStream servletOutputStream = response.getOutputStream();
+
+		//크기지정
+		byte b[] = new byte[1024];
+		int data =0;
+		while((data = (fileInputStream.read(b, 0,b.length))) !=-1) {//b크기만큼 -1이 아닐떄 까지
+			servletOutputStream.write(b, 0, data); //b의 크기만큼 읽어들임
+
+		}
+
+
+//		int downloadresult = bs.downloadCount(file_no);
+		int downloadresult = bs.BoardDownloadCount(file_no);
+
+
+		servletOutputStream.flush();
+		servletOutputStream.close();
+		fileInputStream.close();
+
+	}
 
 
 }

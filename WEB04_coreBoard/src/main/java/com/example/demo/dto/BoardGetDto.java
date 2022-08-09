@@ -40,4 +40,5 @@ public class BoardGetDto {
 
 	private List<BoardFileDto> fileList;  //파일 리스트를 담기위해 Dto에도 담아줌
 	private int file_no;
+	private int filecount;
 }

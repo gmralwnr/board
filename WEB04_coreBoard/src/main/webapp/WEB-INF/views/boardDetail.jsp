@@ -26,8 +26,8 @@
 				data 	: $("#searchBoardForm").serialize(),  //form을 Ajax를 사용하여 서버로 보내기 위한 data형태
 
 				success	: function(result){//컨트롤러에 받은 return 으로 받아온 값을 리절트로 지칭 함
-					console.log("값 확인" + result);
-					console.log("title 값 확인"+ result.title);
+					//console.log("값 확인" + result);
+					//console.log("title 값 확인"+ result.title);
 					$("#title").text(result.title);  //text로 바꾸기
 					$("#board_no").text(result.board_no);
 					$("#category_cd_nm").text(result.category_cd_nm);
@@ -58,13 +58,48 @@
 						reg_dt_real += reg_dt_temp.substring(12,14);
 
 					console.log(reg_dt_real);
-
 					$("#reg_dt").text(reg_dt_real);
 
-				/* 	$("#date").text(result.date); //시간 초 나오게 */
+					let fileList = result.fileList;
+
+					if(fileList != null){
+						//let ref_pk = fileList.ref_pk;
+						//alert(ref_pk);
+						let data="";
+						data +="<tr >"
+						data +="	<th class='fir'>"
+						data +="	첨부파일" /*+  fileList[i]["filecount"]; */
+						data +="</th>";
+						data +="	<td colspan='3' id='file_area'>";
+						for(var i=0; i<fileList.length; i++){
+							data +="		<span >";
+							data +="			<a href ='javascript:void(0);' onclick='fileDownload (" + fileList[i]['file_no'] + ")'>" ;
+							data += 				fileList[i]["origin_file_nm"] ;
+							data +="			</a>";
+							data +="</br>"
+							data +="		</span>";
+						}
+							data +="	</td>";
+							data +="</tr >"
+
+							//alert("파일 명  : " +  fileList[i].origin_file_nm);
+							//alert("파일 명  : " +  fileList[i].file_no);
+
+							/* $("#origin_file_nm1").text(fileList[0].origin_file_nm);
+							$("#origin_file_nm2").text(fileList[1].origin_file_nm);
+							$("#origin_file_nm3").text(fileList[2].origin_file_nm);
+							$("#file_no1").text(fileList[0].file_no);
+							$("#file_no2").text(fileList[1].file_no);
+							$("#file_no3").text(fileList[2].file_no);
+							$("#ref_pk").text(fileList[0].ref_pk); */
+
+						$('#filecheck').append(data);
+
+					}
 				},
 				error :function(){
 					console.log("detail() 오류");
+					alert("상세보기  오류 관리자에게 문의하시기바랍니다");
 				}
 			}); //ajax 끝나는 (ajax는 안에 함수 이기 떄문에 세미콜론을 붙여줌)
 		}		//메소드이기 때문에  } 만 사용
@@ -92,11 +127,33 @@
 
 		//팝업창에서 삭제로 넘어가는 함수
 	 	function deleteboard(){
-	 		$("#searchBoardForm").attr("onsubmit", '');
+	 		/* $("#searchBoardForm").attr("onsubmit", '');
 			$("#searchBoardForm").attr("method", "post");
 //			$("#searchBoardForm #_method").val("method", "delete");
 	 		$("#searchBoardForm").attr("action", "/boardDeleteForm");
 			$('#searchBoardForm').submit();
+ */
+			$.ajax({
+				url			: "/boardDeleteForm",
+				type		: "POST",
+				dataType	: "json",
+				data		: $("#searchBoardForm").serialize(),
+
+				success		: function(result){
+
+					/**/
+					if(result >0){
+						alert("삭제되었습니다");
+						location.href ="/" //화면 새로고침
+						}else{
+							alert("삭제안되었습니다");
+					}
+				} ,
+				error : function (){
+					alert("에러 발생 관리자에게 문의 하시기바랍니다");
+					}
+
+			});
 	 	}
 
 		//목록으로 넘어가는 함수
@@ -108,6 +165,12 @@
 			$('#searchBoardForm').attr("action", "/").submit();
 
 	 	}
+
+		function fileDownload(file_no){
+			alert("다운로드 할거지롱");
+			alert(file_no);
+			location.href ="filedownload?file_no=" + file_no;
+		}
 
 	 	gnb('1','1');
 	</script>
@@ -171,17 +234,19 @@
 				<td colspan="3" id="cont" style="white-space:pre-wrap; ">
 				</td>
 			</tr>
-			<tr>
-				<th class="fir">첨부파일</th>
+			<tbody id="filecheck">
+		<!--	<tr >
+				 <th class="fir">첨부파일</th>
 				<td colspan="3" id="file_area">
-				<!-- 
+
 					<span>fresult</span>
 					<br />
-					<span><a href="#">상담내역2.xlsx</a></span>
-				 -->
-				 
+					<span><a href="javascript:void(0);" ></a></span>
+
+
 				</td>
-			</tr>
+			</tr> -->
+			</tbody>
 			</tbody>
 			</table>
 

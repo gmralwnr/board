@@ -1,9 +1,0 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-<meta charset="UTF-8">
-<title>코아메소드-초급자교육</title>
-
-<link href="resources/css/style.css" rel="stylesheet">
-<script src="resources/js/jquery.min.js"></script>
-<script src="resources/js/common.js"></script>
-<script src="resources/js/custom.js"></script>

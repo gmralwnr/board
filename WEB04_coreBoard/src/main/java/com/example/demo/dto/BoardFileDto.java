@@ -43,5 +43,8 @@ public class BoardFileDto {
 	/** 등록일시*/
 	private Timestamp reg_dt;
 
+	/**파일 카운트 */
+	//private int filecount;
+
 
 }

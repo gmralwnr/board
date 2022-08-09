@@ -99,3 +99,78 @@
 8월 02, 2022 16:11:04.896 [17332:15812:0802/161104.895:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
 8월 02, 2022 16:11:26.512 [17332:15812:0802/161126.512:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
 8월 02, 2022 16:12:17.238 [17332:15812:0802/161217.238:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
+
+8월 03, 2022 09:04:20.922 NEW SESSION
+8월 03, 2022 09:04:20.922 [3148:13092:0803/090420.919:ERROR:device_event_log_impl.cc(214)] [09:04:20.920] USB: usb_device_handle_win.cc:1048 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+8월 03, 2022 09:04:20.922 [3148:13092:0803/090420.920:ERROR:device_event_log_impl.cc(214)] [09:04:20.921] USB: usb_device_handle_win.cc:1048 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+8월 03, 2022 09:05:16.894 [3148:19352:0803/090516.894:ERROR:util.cc(127)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
+8월 03, 2022 09:09:31.920 [3148:13092:0803/090931.920:ERROR:device_event_log_impl.cc(214)] [09:09:31.917] USB: usb_service_win.cc:104 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: 요소가 없습니다. (0x490)
+8월 03, 2022 09:52:02.885 [3148:13092:0803/095202.884:ERROR:CONSOLE(1)] "Uncaught (in promise) RangeError: Invalid line number 393 in 1-line document", source: devtools://devtools/bundled/devtools-frontend/front_end/third_party/codemirror.next/chunk/codemirror.js (1)
+8월 03, 2022 14:05:16.905 [3148:14060:0803/140516.904:ERROR:util.cc(127)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
+8월 03, 2022 15:42:40.339 [3148:3880:0803/154240.338:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:42:42.358 [3148:3880:0803/154242.358:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
+8월 03, 2022 15:43:33.561 [3148:3880:0803/154333.560:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:43:38.207 [3148:3880:0803/154338.207:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:43:53.289 [3148:3880:0803/154353.289:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:44:07.05 [3148:3880:0803/154407.004:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:44:09.34 [3148:3880:0803/154409.034:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
+8월 03, 2022 15:45:45.451 [3148:3880:0803/154545.451:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:45:47.454 [3148:3880:0803/154547.454:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
+8월 03, 2022 15:46:46.293 [3148:3880:0803/154646.293:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:46:52.702 [3148:3880:0803/154652.701:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:47:07.794 [3148:3880:0803/154707.794:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:47:17.844 [3148:3880:0803/154717.843:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:47:35.722 [3148:3880:0803/154735.722:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:47:39.831 [3148:3880:0803/154739.831:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
+8월 03, 2022 15:47:55.206 [3148:3880:0803/154755.206:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:48:47.777 [3148:3880:0803/154847.777:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
+8월 03, 2022 15:49:05.718 [3148:3880:0803/154905.718:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:49:36.700 [3148:3880:0803/154936.699:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:49:43.808 [3148:3880:0803/154943.807:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
+8월 03, 2022 15:49:48.716 [3148:3880:0803/154948.716:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:50:44.775 [3148:3880:0803/155044.775:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
+8월 03, 2022 15:50:52.735 [3148:3880:0803/155052.735:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:51:21.709 [3148:3880:0803/155121.708:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
+8월 03, 2022 15:51:26.239 [3148:3880:0803/155126.239:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:53:59.946 [3148:3880:0803/155359.946:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
+8월 03, 2022 15:54:07.214 [3148:3880:0803/155407.213:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:54:22.664 [3148:3880:0803/155422.664:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:54:26.710 [3148:3880:0803/155426.709:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:55:02.482 [3148:3880:0803/155502.482:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:55:06.714 [3148:3880:0803/155506.714:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:57:24.435 [3148:3880:0803/155724.434:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
+8월 03, 2022 15:57:29.737 [3148:3880:0803/155729.737:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 15:59:04.75 [3148:3880:0803/155904.074:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
+8월 03, 2022 16:01:14.229 [3148:3880:0803/160114.229:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 16:05:24.815 [3148:3880:0803/160524.814:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
+8월 03, 2022 16:06:30.738 [3148:3880:0803/160630.738:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 16:10:55.17 [3148:3880:0803/161055.016:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
+8월 03, 2022 16:11:00.214 [3148:3880:0803/161100.214:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 16:11:15.622 [3148:3880:0803/161115.622:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 16:11:19.724 [3148:3880:0803/161119.722:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 16:15:42.615 [3148:3880:0803/161542.615:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -106
+8월 03, 2022 16:15:50.225 [3148:3880:0803/161550.225:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 16:21:16.738 [3148:3880:0803/162116.738:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+8월 03, 2022 16:31:30.505 [3148:3880:0803/163130.504:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+
+8월 08, 2022 08:54:43.632 NEW SESSION
+8월 08, 2022 08:54:43.632 [22612:16868:0808/085443.630:ERROR:device_event_log_impl.cc(214)] [08:54:43.631] USB: usb_device_handle_win.cc:1048 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+8월 08, 2022 08:54:43.632 [22612:16868:0808/085443.631:ERROR:device_event_log_impl.cc(214)] [08:54:43.632] USB: usb_device_handle_win.cc:1048 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+8월 08, 2022 08:55:38.541 [22612:25288:0808/085538.540:ERROR:util.cc(127)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
+8월 08, 2022 09:10:02.823 [22612:16868:0808/091002.823:ERROR:CONSOLE(1)] "Uncaught (in promise) RangeError: Invalid line number 178 in 1-line document", source: devtools://devtools/bundled/devtools-frontend/front_end/third_party/codemirror.next/chunk/codemirror.js (1)
+8월 08, 2022 10:02:45.407 [22612:16868:0808/100245.407:ERROR:device_event_log_impl.cc(214)] [10:02:45.405] USB: usb_service_win.cc:104 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: 요소가 없습니다. (0x490)
+8월 08, 2022 13:01:47.205 [22612:16868:0808/130147.204:ERROR:interface_endpoint_client.cc(665)] Message 1 rejected by interface blink.mojom.WidgetHost
+8월 08, 2022 13:01:47.205 [22612:16868:0808/130147.204:ERROR:interface_endpoint_client.cc(665)] Message 1 rejected by interface blink.mojom.WidgetHost
+8월 08, 2022 13:55:38.547 [22612:6924:0808/135538.547:ERROR:util.cc(127)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
+8월 08, 2022 15:17:02.826 [5748:10744:0808/151702.826:ERROR:device_event_log_impl.cc(214)] [15:17:02.826] USB: usb_device_handle_win.cc:1048 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+8월 08, 2022 15:17:02.828 [5748:10744:0808/151702.827:ERROR:device_event_log_impl.cc(214)] [15:17:02.828] USB: usb_device_handle_win.cc:1048 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+8월 08, 2022 15:18:00.710 [5748:11592:0808/151800.710:ERROR:util.cc(127)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
+8월 08, 2022 15:37:39.936 [5748:10744:0808/153739.936:ERROR:device_event_log_impl.cc(214)] [15:37:39.935] USB: usb_service_win.cc:104 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: 요소가 없습니다. (0x490)
+8월 08, 2022 17:04:26.863 [5748:10744:0808/170426.863:ERROR:interface_endpoint_client.cc(665)] Message 1 rejected by interface blink.mojom.WidgetHost
+
+8월 09, 2022 09:02:28.915 NEW SESSION
+8월 09, 2022 09:02:28.915 [14008:14456:0809/090228.912:ERROR:device_event_log_impl.cc(214)] [09:02:28.912] USB: usb_device_handle_win.cc:1048 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+8월 09, 2022 09:02:28.915 [14008:14456:0809/090228.913:ERROR:device_event_log_impl.cc(214)] [09:02:28.913] USB: usb_device_handle_win.cc:1048 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+8월 09, 2022 09:03:25.890 [14008:992:0809/090325.889:ERROR:util.cc(127)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
+8월 09, 2022 11:24:58.89 [14008:14456:0809/112458.089:ERROR:device_event_log_impl.cc(214)] [11:24:58.103] USB: usb_service_win.cc:104 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: 요소가 없습니다. (0x490)
+8월 09, 2022 14:03:25.895 [14008:15572:0809/140325.894:ERROR:util.cc(127)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
