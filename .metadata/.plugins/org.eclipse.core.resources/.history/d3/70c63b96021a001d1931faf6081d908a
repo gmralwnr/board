@@ -1,0 +1,39 @@
+#ìë² í¬í¸ ì¤ì 
+server.port=8070
+
+# jsp ì¤ì 
+spring.mvc.view.prefix=/WEB-INF/views/
+spring.mvc.view.suffix=.jsp
+
+# mysql config											url에시간지나도 안꺼지게 true 해놓ㅎ음  끝에
+spring.datasource.driver-class-name=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+spring.datasource.url=jdbc:log4jdbc:mysql://222.238.63.44:3306/coreintranet?serverTimezone=UTC&characterEncoding=UTF-8&autoReconnect=true
+spring.datasource.username=coreWeb
+spring.datasource.password=coremaria!
+
+
+# mybatis config
+mybatis.type-aliases-package=com.example.demo.dto //Type 마다 다 적는데 여기에다 적으면 알아서 넘어감
+mybatis.mapper-locations=mapper/**/*.xml
+
+# thymeleaf ì¤ì 
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+spring.thymeleaf.cache=false
+spring.thymeleaf.view-names=thymeleaf/*
+
+
+# sql 로그 관련 설정
+logging.level.jdbc.sqlonly=off
+
+# 끄기
+#logging.level.jdbc.sqltiming=off
+#logging.level.jdbc.resultsettable=off
+
+# 켜기
+logging.level.jdbc.sqltiming=info
+logging.level.jdbc.resultsettable=info
+
+logging.level.jdbc.audit=off
+logging.level.jdbc.resultset=off
+logging.level.jdbc.connection=off

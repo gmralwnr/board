@@ -24,8 +24,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video{ margin:0; padding:0; border:0; }
 
@@ -42,11 +42,11 @@ iframe,
 embed,
 object,
 video {max-width:100%;}
-i, 
-cite, 
-em, 
-var, 
-address, 
+i,
+cite,
+em,
+var,
+address,
 dfn { font-style:normal;}
 
 .blind,
@@ -90,7 +90,7 @@ input[type=file].input{box-shadow:none; border: 1px solid #c2c4ca \9;}
 :root input[type=file],
 input[type=file].input{ border:none \9; box-shadow:none;}
 /*ie10 hack*/
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {  
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
 input[type=file],
 input[type=file].input{ border:none; box-shadow:none;}
 }
@@ -259,20 +259,20 @@ body#index #gnb-wrap{ width:980px; margin:0 auto;}
 #footer .footer-wrap address{ margin:10px 0 5px; color:#959595; font-size:11px;}
 #footer .footer-wrap .copy{ color:#959595; font-size:11px; text-transform:uppercase;}
 #footer .footer-wrap .famliy-link{ position:absolute; top:0; right:15px; width:240px;}
-#footer .footer-wrap .famliy-link>button{ position:relative; background-color:#dbdbdb; border:none; width:100%; display:block; text-align:left; line-height:37px; padding:0 20px; color:#fff; font-size:13px; font-family:'Nanum Barun Gothic','돋움', '굴림', serif; font-weight:600; cursor:pointer;} 
+#footer .footer-wrap .famliy-link>button{ position:relative; background-color:#dbdbdb; border:none; width:100%; display:block; text-align:left; line-height:37px; padding:0 20px; color:#fff; font-size:13px; font-family:'Nanum Barun Gothic','돋움', '굴림', serif; font-weight:600; cursor:pointer;}
 #footer .footer-wrap .famliy-link>button:after{ content:""; position:absolute; top:50%; right:20px; width:11px; height:6px; margin-top:-3px; display:block; background:url('../images/sp_img.png') -146px -4px no-repeat;}
 #footer .footer-wrap .famliy-link>ul{ background-color:#dbdbdb; position:absolute; bottom:37px; left:0; overflow:auto; width:100%; height:170px; padding:10px 0; z-index:9999; display:none; }
 #footer .footer-wrap .famliy-link>ul>li>a{ display:block; padding:8px 20px; color:#fff;}
 
 body#index #footer .footer-wrap{ width:980px; margin:0 auto; padding:0 0 0 170px;}
-body#index #footer .footer-wrap:before{ left:0; } 
+body#index #footer .footer-wrap:before{ left:0; }
 body#index #footer .footer-wrap .famliy-link{ right:0; }
 
 /* float-right */
 .float-right{ position:absolute; top:200px; right:10px; width:130px;}
 .float-right>h2{ line-height:50px; background-color:#33986a; border-radius:5px 5px 0 0; text-align:center; font-size:16px; font-weight:600; letter-spacing:-0.01em; color:#fff; font-family:'Nanum Barun Gothic','돋움', '굴림', serif; }
 .float-right>ul{ border:#f1f1f1 1px solid; border-top:none;  padding:18px 0 20px;}
-.float-right>ul>li+li{ margin-top:15px;} 
+.float-right>ul>li+li{ margin-top:15px;}
 .float-right>ul>li a{ display:block; font-size:13px; font-family:'Nanum Barun Gothic','돋움', '굴림', serif; text-align:center; }
 .float-right>ul>li a:before{ content:""; width:53px; height:53px; display:block; margin:0 auto 8px; background-color:#f3f3f3; border-radius:50%; background-position:50% 50%; background-repeat:no-repeat;}
 .float-right>ul>li.item1 a:before{ background-image:url('../images/r_brn1.png');}
@@ -383,7 +383,7 @@ ul.ul-list01>li+li{ margin-top:4px;}
 ul.ul-list01>li a{ text-indent:0;}
 
 ul.ul-list02>li+li{ margin-top:5px;}
-ul.ul-list02>li>.tit-tx:before{ content:""; width:3px; height:5px; background:url('../images/sp_img.png') -180px -71px no-repeat; display:inline-block; vertical-align:middle; margin-right:5px;} 
+ul.ul-list02>li>.tit-tx:before{ content:""; width:3px; height:5px; background:url('../images/sp_img.png') -180px -71px no-repeat; display:inline-block; vertical-align:middle; margin-right:5px;}
 ul.ul-list02>li>span+.tit-tx{ margin-left:15px;}
 
 .caution-tx{ text-indent:-35px; padding-left:35px;}
@@ -537,7 +537,7 @@ table.view .ic-del{ vertical-align:middle; width:11px; height:11px; text-indent:
 .mem-step li{ position:relative; font-family:'Nanum Barun Gothic','돋움', '굴림', serif; font-size:16px; width:25%; float:left; height:36px; line-height:36px; text-align:center; color:#666; text-align:center; background-color:#e4e4e4; font-weight:600;}
 .mem-step li:after{ content:""; position:absolute; top:0; right:-10px; width:21px; height:36px; display:block; background-image:url('../images/mem_step.png'); background-position:0 -36px; z-index:2;}
 .mem-step li.step4:after{ background-position:-21px -36px; }
-.mem-step li.on{ background-color:#fb546e; color:#fff; } 
+.mem-step li.on{ background-color:#fb546e; color:#fff; }
 .mem-step li.on:after{ background-position:0 0; }
 .mem-step li.step4.on:after{ background-position:-21px 0; }
 .mem-step li+li.on:before{ content:""; position:absolute; top:0; left:-10px; width:21px; height:36px; display:block; background-image:url('../images/mem_step.png'); background-position:0 -72px; z-index:2;}
@@ -558,7 +558,7 @@ table.view .ic-del{ vertical-align:middle; width:11px; height:11px; text-indent:
 .minfo-pw li+li{ margin-top:10px;}
 .minfo-pw li>span{ width:350px; display:inline-block;}
 
-.txt-bx{ padding:25px; border:#eee 1px solid;} 
+.txt-bx{ padding:25px; border:#eee 1px solid;}
 
 .scroll-y{ overflow-y:auto;}
 
@@ -699,7 +699,7 @@ h4.h4-tit2 .sub-tx{ font-weight:400; font-size:12px;}
 .map ul.maplst li a{color:#666; line-height:24px;}
 .map ul.depth3{margin:5px 0 5px 0;}
 .map ul.depth3 li a{font-size:11px; color:#8d8d8d; line-height:18px;}
-.map ul.maplst li a:hover{color:#fb546e;} 
+.map ul.maplst li a:hover{color:#fb546e;}
 
 /* bill-lst01 */
 .bill-lst01{ background:url('../images/bill_img01.jpg') 30px 0 no-repeat; padding:0 0 0 170px; min-height:100px; margin:40px 0 0 0;}

@@ -7,10 +7,10 @@
 <%@ include file="./include/head.jsp" %>
 
 	<script type="text/javascript">
-		//html 다 실행되고 난 후 document.ready 가 실행
-
+		var oEditors = [];  //웹에디터 배열
 		console.log("실행시작 : " + "시자자자자ㅏㄱㅇ");
 
+		//html 다 실행되고 난 후 document.ready 가 실행
 		$(document).ready(function(){//시작하기전 등록일때 조회 할 여부
 
 /* 			*****c태그도 javascript 에 쓸 수 있다
@@ -23,13 +23,29 @@
 					// getBoard();
 				</c:when>
 			</c:choose> */
+			gnb('1','1');
 
 			if(document.boardUpdate.board_no.value!=""){//$("#board_no").val() //document 안에 있을 떈
 				getBoard();
 			}
 
 			// 메뉴 하이라이팅
-			gnb('1','1');
+
+			//** 스마트 웹에디터 js ->  ready 뒤에 넣어 놓기
+			nhn.husky.EZCreator.createInIFrame({
+				oAppRef: oEditors,
+				elPlaceHolder: "txtContent",  //textarea ID 입력
+				sSkinURI: "/libs/smarteditor/SmartEditor2Skin.html",  //martEditor2Skin.html 경로 입력
+				fCreator: "createSEditor2",
+				htParams : {
+					// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+					bUseToolbar : true,
+					// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+					bUseVerticalResizer : false,
+					// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+					bUseModeChanger : true
+				}
+			}); //스마트 웹에디터
 		});
 
 		//게시판 수정 정보 가져오기
@@ -48,7 +64,8 @@
 					/* $("#password").val(result.password); */  //pasword필요없음
 					$("#title").val(result.title);  //text로 바꾸기
 					$("#board_no").text(result.board_no);
-					$("#cont").val(result.cont);
+				//	$("#cont").val(result.cont);
+					$("#txtContent").val(result.cont);
 					$("#writer_nm").val(result.writer_nm);
 					$("#view_cnt").val(result.view_cnt);
 					$("#reg_dt").val(result.reg_dt);
@@ -70,7 +87,8 @@
 								//$("#file_no2").text(fileList[1].file_no);
 								//$("#file_no3").text(fileList[2].file_no);
 							$("#ref_pk").text(fileList[0].ref_pk);
-
+							$("#imgdata" + index ).append(
+								"<img src=  ../upload/" + fileList[i]["save_file_nm"] + " width='200px' height='100px' " +  " onerror=" + "this.style.display='none'" + " alt=''  >");
 							if(fileList[i].file_no !=null){ //파일 넘버가 널이 아닐때 파일 돌리기
 									//ajax자체를 온클릭 줄 수 있음. 삭제힐때 따로 a태그안에 온클릭을 안줘도 됨 ***id값은 줘야함
 									//fileDelete(file_no)로 넘어갈 수 있음 ex)fileDelete(54)
@@ -79,6 +97,7 @@
 									$("#origin_file_nm" + index).attr("onclick", "fileDownload(" + fileList[i].file_no + ")");  //ajax자체를 온클릭 줄 수 있음
 
 									//$("boardUpdate").attr("method", "post");   //attr방식
+
 							}
 						}
 
@@ -119,11 +138,29 @@
 				return false;
 			}
 
+			/*
+			//if(document.boardUpdate.cont.value==""){
 			if(document.boardUpdate.cont.value==""){
 				alert("내용을 입력해주세요");
 				document.category_cd_nm.cont.focus();
 				return false;
 			}
+			*/
+			oEditors.getById["txtContent"].exec("UPDATE_CONTENTS_FIELD", []);
+			//스마트 에디터 값을 텍스트컨텐츠로 전달
+			//alert(document.getElementById("txtContent").value); //문자열에서 어떻게 입력이 되는지 출력해봄
+
+			//에디더 사용 하여 글씨 빈칸 찾아내기
+			var Text = document.getElementById("txtContent").value;  //textContent 를 Text로 담음
+			Text = Text.replace(/$nbsp;/gi,"");
+			Text = Text.replace(/<br>/gi,"");
+			Text = Text.replace(/ /gi,"");
+
+			if(Text == "<p><\/p>" || Text ==""){
+				alert("내용을 입력하세요");
+				return false;
+			}
+
 
 			//등록시 파일 없을 때 Validation
 			//let uploadFile = $("#uploadFile").val();  -->이 방식이 안되서 아래 방식으로
@@ -325,6 +362,22 @@
 		}
 
 
+
+		//네이버 에디터 !!!!!!!!!!!!!!!!!
+
+
+			function save(){
+				oEditors.getById["txtContent"].exec("UPDATE_CONTENTS_FIELD", []);
+			    		//스마트 에디터 값을 텍스트컨텐츠로 전달
+				var content = document.getElementById("smartEditor").value;
+				alert(document.getElementById("txtContent").value);
+			    		// 값을 불러올 땐 document.get으로 받아오기
+			    update_start();
+				return;
+			}
+
+
+
 	</script>
 </head>
 <body>
@@ -412,12 +465,32 @@
 							<tr>
 								<th class="fir">내용 <i class="req">*</i></th>
 								<td colspan="3">
-									<textarea style="white-space:pre-wrap; width:100%; height:300px;" id="cont" name="cont"></textarea>
+								<!-- 	<textarea style="white-space:pre-wrap; width:100%; height:300px;" id="cont" name="cont"></textarea> -->
+								<textarea id="txtContent" rows="10" cols="100" style="width: 100%;" name="cont"></textarea>
+<!--							javascript는 무조건 head에 올리기 ready 시작 후
+								<script id="smartEditor" type="text/javascript">
+										var oEditors = [];
+										nhn.husky.EZCreator.createInIFrame({
+											oAppRef: oEditors,
+											elPlaceHolder: "txtContent",  //textarea ID 입력
+											sSkinURI: "/libs/smarteditor/SmartEditor2Skin.html",  //martEditor2Skin.html 경로 입력
+											fCreator: "createSEditor2",
+											htParams : {
+											// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+											bUseToolbar : true,
+											// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+											bUseVerticalResizer : false,
+											// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+											bUseModeChanger : false
+										}
+									});
+								</script> -->
 								</td>
 							</tr>
 							<!----> <tr>
 								<th class="fir">첨부파일 1 <i class="req">*</i></th>
 								<td colspan="3" >
+								<div id="imgdata1"></div>
 									<span><a href="javascript:void(0);"   id="origin_file_nm1" ></a> <c:if test="${count>=1}"><a href="javascript:void(0);" id="file_no1" class="ic-del">삭제</a></c:if></span>
 									<br />
 									<%-- <c:choose>
@@ -436,7 +509,8 @@
 							<tr>
 								<th class="fir">첨부파일 2</th>
 								<td colspan="3" >
-									<span><a href="javascript:void(0);" id="origin_file_nm2"></a> <c:if test="${count>=2}"><a href="javascript:void(0);"  onclick= "fileDelete()" id="file_no2" class="ic-del">삭제</a></c:if></span>
+								<div id="imgdata2"></div>
+									<span><a href="javascript:void(0);" id="origin_file_nm2"></a> <c:if test="${count>=2}"><a href="javascript:void(0);"   id="file_no2" class="ic-del">삭제</a></c:if></span>
 									<br />
 									<!-- <input type="file" name="uploadFile" id="uploadFile"class="input block mt10"> -->
 									<%-- <c:choose>
@@ -453,7 +527,8 @@
 							<tr>
 								<th class="fir">첨부파일 3</th>
 								<td colspan="3">
-									<span><a href="javascript:void(0);" id="origin_file_nm3"></a> <c:if test="${3 eq count}"><a href="javascript:void(0);"  onclick= "fileDelete()" id="file_no3"class="ic-del">삭제</a></c:if></span>
+								<div id="imgdata3"></div>
+									<span><a href="javascript:void(0);" id="origin_file_nm3"></a> <c:if test="${3 eq count}"><a href="javascript:void(0);" id="file_no3"class="ic-del">삭제</a></c:if></span>
 									<!-- <input type="file" name="uploadFile" id= "uploadFile" class="input block mt10"> -->
 									<%--<c:choose>
 										 <c:when test="${count==3}">
@@ -475,6 +550,10 @@
 								취소
 							</a>
 					</div>
+					<!--  스마트 에디터 사용
+					<div id="se2_sample" style="margin:10px 0;">
+						<input type="button" onclick="save();" value="본문 내용 가져오기">
+					</div> -->
 
 		</div><!-- /contents -->
 

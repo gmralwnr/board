@@ -9,7 +9,7 @@ function gnb($d1n, $d2m, $d3m){
 
 	$("#snb").children().filter("[class^=snb]").each(function(){
 		$id = $(this).attr("class").replace("snb", "");
-		
+
 		if($d1n == $id){
 			$(".snb"+$d1n).addClass("active");
 			if($d2m)	$(".snb"+$d1n+">ul>li").eq(parseInt($d2m) - 1).addClass("active");
@@ -40,7 +40,7 @@ function gnb($d1n, $d2m, $d3m){
 				}
 		);
 	}
-	
+
 }
 
 $(document).on("click", "#snb > li > a", mLst01);
@@ -94,8 +94,9 @@ function mLst02(e){
 	});
 }
 
-$(function() {
 
+$(function() {
+/*
     $( ".datepicker" ).datepicker({
         prevText: '이전달',
         nextText: '다음달',
@@ -114,7 +115,7 @@ $(function() {
 		changeYear: true,
 		dateFormat: 'yy-mm-dd'
 	});
-
+*/
 	/* MonthPicker 옵션 */
 	options = {
 		pattern: 'yyyy-mm', // Default is 'mm/yyyy' and separator char is not mandatory
@@ -123,19 +124,20 @@ $(function() {
 		finalYear: 2018,
 		monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
 	};
-	
+
 	/* MonthPicker Set */
+	/*
 	$('.monthpicker').monthpicker(options);
 
 	/* 버튼 클릭시 MonthPicker Show */
     $('.btn_monthpicker').bind('click', function () {
         $('.monthpicker').monthpicker('show');
-    });   
-    /* MonthPicker 선택 이벤트 */
+    });
+    /* MonthPicker 선택 이벤트
     $('#monthpicker').monthpicker().bind('monthpicker-click-month', function (e, month) {
         alert("선택하신 월은 : " + month + "월");
     });
-
+	*/
 	$(".famliy-link button").click(function () {
 		$(this).next().slideToggle(200);
 	});
@@ -145,7 +147,7 @@ $(function() {
 				$(".famliy-link > ul").slideUp(200);
 			}
 		});
-	});	
+	});
 
 	$(".tit-area .btn-help").click(function () {
 		$(this).next(".pop-help").slideToggle(200);
@@ -186,11 +188,11 @@ $(function() {
 		},
 		//paginationElement:'button',
         autoplay: 2500,
-        //autoplayDisableOnInteraction: false	
+        //autoplayDisableOnInteraction: false
 		loop:true,
 		grabCursor: true,
 		paginationClickable: true
-	});  
+	});
 
    var fileTarget = $('.filebox .upload-hidden');
 
@@ -198,7 +200,7 @@ $(function() {
         if(window.FileReader){
             // 파일명 추출
             var filename = $(this)[0].files[0].name;
-        } 
+        }
 
         else {
             // Old IE 파일명 추출
@@ -211,13 +213,13 @@ $(function() {
 	$('label.file').each(function () {
 		var target = $(this);
 		var target_input = $(this).find('input[type=file]');
-		
+
 		target.find('input[type=file]').on('change', function (event) {
 				console.log($(this).val());
-				var file_name = $(this).val();				
+				var file_name = $(this).val();
 				target.find('input[type=text]').val(file_name);
 			});
-		
+
 		target.on('click', 'input[type=text], span', function () {
 			target_input.click();
 			return false;
@@ -254,9 +256,9 @@ $(function() {
 	// faq
 	$(".faq-wrap .tr-a").hide();
 	$(".faq-wrap .tr-q").click(function(){
-   		$(this).next(".tr-a").slideToggle(0)   
-    		.siblings(".tr-a:visible").slideUp(0) 
-    	$(this).toggleClass("active")               
+   		$(this).next(".tr-a").slideToggle(0)
+    		.siblings(".tr-a:visible").slideUp(0)
+    	$(this).toggleClass("active")
           	.siblings(".tr-q").removeClass("active")
    });
 

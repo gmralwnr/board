@@ -6,23 +6,23 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value=""/>
+		<item key="selection" value="space"/>
 		<list key="findhistory">
-			<item value="dfddfdf"/>
-			<item value="dsdsd"/>
-			<item value="file_board_no"/>
-			<item value="List"/>
-			<item value="uploadFile"/>
-			<item value="필요할까"/>
-			<item value="update"/>
-			<item value="getFile"/>
-			<item value="dfgfgfsef"/>
-			<item value="getFileOne"/>
-			<item value="update_start"/>
-			<item value="file_check"/>
+			<item value="space"/>
+			<item value="c:if"/>
+			<item value="fileList"/>
+			<item value="set"/>
+			<item value="file"/>
 			<item value="boardFileDelete"/>
-			<item value="bfdto"/>
-			<item value="boardAllFileDelete"/>
+			<item value="search"/>
+			<item value="select"/>
+			<item value="선택 이벤트"/>
+			<item value="monthpicker"/>
+			<item value="smartEditor"/>
+			<item value="내용을"/>
+			<item value="cont"/>
+			<item value="변경사항이 저장되지"/>
+			<item value="변경사항이 저장되지 않을 수 있습니다."/>
 		</list>
 		<list key="replacehistory">
 			<item value=",#{"/>
@@ -38,8 +38,8 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="9"/>
-		<item key="DIALOG_Y_ORIGIN" value="331"/>
+		<item key="DIALOG_X_ORIGIN" value="1363"/>
+		<item key="DIALOG_Y_ORIGIN" value="548"/>
 		<item key="DIALOG_WIDTH" value="370"/>
 		<item key="DIALOG_HEIGHT" value="454"/>
 		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>

@@ -174,3 +174,29 @@
 8월 09, 2022 09:03:25.890 [14008:992:0809/090325.889:ERROR:util.cc(127)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
 8월 09, 2022 11:24:58.89 [14008:14456:0809/112458.089:ERROR:device_event_log_impl.cc(214)] [11:24:58.103] USB: usb_service_win.cc:104 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: 요소가 없습니다. (0x490)
 8월 09, 2022 14:03:25.895 [14008:15572:0809/140325.894:ERROR:util.cc(127)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
+8월 09, 2022 15:58:40.382 [14008:14456:0809/155840.382:ERROR:CONSOLE(1)] "Uncaught (in promise) RangeError: Invalid line number 134 in 1-line document", source: devtools://devtools/bundled/devtools-frontend/front_end/third_party/codemirror.next/chunk/codemirror.js (1)
+8월 09, 2022 16:16:54.944 [14008:14456:0809/161654.944:ERROR:CONSOLE(1)] "Uncaught (in promise) RangeError: Invalid line number 134 in 1-line document", source: devtools://devtools/bundled/devtools-frontend/front_end/third_party/codemirror.next/chunk/codemirror.js (1)
+8월 09, 2022 16:20:53.95 [14008:14456:0809/162053.094:ERROR:CONSOLE(1)] "Uncaught (in promise) RangeError: Field is not present in this state", source: devtools://devtools/bundled/devtools-frontend/front_end/third_party/codemirror.next/chunk/codemirror.js (1)
+8월 09, 2022 16:28:17.826 [14008:14456:0809/162817.826:ERROR:CONSOLE(1)] "Uncaught (in promise) RangeError: Invalid line number 43 in 1-line document", source: devtools://devtools/bundled/devtools-frontend/front_end/third_party/codemirror.next/chunk/codemirror.js (1)
+8월 09, 2022 16:39:57.38 [14008:14456:0809/163957.037:ERROR:interface_endpoint_client.cc(665)] Message 1 rejected by interface blink.mojom.WidgetHost
+8월 09, 2022 16:50:56.226 [14008:14456:0809/165056.226:ERROR:CONSOLE(6)] "console.assert", source: devtools://devtools/bundled/devtools-frontend/front_end/panels/console/console.js (6)
+8월 09, 2022 16:50:56.227 [14008:14456:0809/165056.226:ERROR:CONSOLE(6)] "console.assert", source: devtools://devtools/bundled/devtools-frontend/front_end/panels/console/console.js (6)
+8월 09, 2022 16:50:56.227 [14008:14456:0809/165056.226:ERROR:CONSOLE(6)] "console.assert", source: devtools://devtools/bundled/devtools-frontend/front_end/panels/console/console.js (6)
+8월 09, 2022 16:50:56.227 [14008:14456:0809/165056.226:ERROR:CONSOLE(6)] "console.assert", source: devtools://devtools/bundled/devtools-frontend/front_end/panels/console/console.js (6)
+8월 09, 2022 16:50:56.228 [14008:14456:0809/165056.226:ERROR:CONSOLE(6)] "console.assert", source: devtools://devtools/bundled/devtools-frontend/front_end/panels/console/console.js (6)
+8월 09, 2022 17:18:40.738 [14008:14456:0809/171840.738:ERROR:interface_endpoint_client.cc(665)] Message 1 rejected by interface blink.mojom.WidgetHost
+
+8월 10, 2022 09:09:48.152 NEW SESSION
+8월 10, 2022 09:09:48.152 [7852:17732:0810/090948.150:ERROR:device_event_log_impl.cc(214)] [09:09:48.150] USB: usb_device_handle_win.cc:1048 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+8월 10, 2022 09:09:48.152 [7852:17732:0810/090948.151:ERROR:device_event_log_impl.cc(214)] [09:09:48.151] USB: usb_device_handle_win.cc:1048 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+8월 10, 2022 09:10:44.741 [7852:20508:0810/091044.741:ERROR:util.cc(127)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
+8월 10, 2022 09:47:26.216 [7852:17732:0810/094726.216:ERROR:device_event_log_impl.cc(214)] [09:47:26.214] USB: usb_service_win.cc:104 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: 요소가 없습니다. (0x490)
+8월 10, 2022 11:21:46.668 [7852:17732:0810/112146.667:ERROR:interface_endpoint_client.cc(665)] Message 1 rejected by interface blink.mojom.WidgetHost
+8월 10, 2022 11:21:46.668 [7852:17732:0810/112146.667:ERROR:interface_endpoint_client.cc(665)] Message 1 rejected by interface blink.mojom.WidgetHost
+8월 10, 2022 11:21:46.668 [7852:17732:0810/112146.667:ERROR:interface_endpoint_client.cc(665)] Message 1 rejected by interface blink.mojom.WidgetHost
+8월 10, 2022 12:56:19.830 [7852:17732:0810/125619.829:ERROR:interface_endpoint_client.cc(665)] Message 1 rejected by interface blink.mojom.WidgetHost
+8월 10, 2022 12:56:19.830 [7852:17732:0810/125619.829:ERROR:interface_endpoint_client.cc(665)] Message 1 rejected by interface blink.mojom.WidgetHost
+8월 10, 2022 14:10:44.747 [7852:22728:0810/141044.746:ERROR:util.cc(127)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
+8월 10, 2022 15:50:15.279 [7852:17732:0810/155015.279:ERROR:device_event_log_impl.cc(214)] [15:50:15.277] USB: usb_service_win.cc:307 SetupDiEnumDeviceInterfaces: 사용 가능한 데이터가 없습니다. (0x103)
+8월 10, 2022 16:06:06.373 [7852:17732:0810/160606.372:ERROR:device_event_log_impl.cc(214)] [16:06:06.371] USB: usb_service_win.cc:104 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: 요소가 없습니다. (0x490)
+8월 10, 2022 16:49:07.531 [7852:18012:0810/164907.530:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -7

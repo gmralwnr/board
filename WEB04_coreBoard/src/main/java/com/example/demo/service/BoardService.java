@@ -225,7 +225,30 @@ public class BoardService {
 
 
 			//List<BoardFileDto> fileList = this.getFileOne(file_board_no);
-			if(fileList.size()!=0) {
+
+			 if(fileList.size()>=1) {
+				for(int i=0; i<fileList.size(); i++)
+					if(!fileList.get(i).getOrigin_file_nm().equals("")  && !uploadFile[i].getOriginalFilename().equals("")) {
+
+						System.out.println("기존파일 삭제할거야 0번째 일때 " + "기존파일 : " + fileList.get(i).getOrigin_file_nm() + "새로운 파일 : " + uploadFile[i].getOriginalFilename() );
+						System.out.println("기존파일 삭제할거야 0번쨰 파일 ");
+						String save_file_nm = fileList.get(i).getSave_path() +  fileList.get(i).getSave_file_nm();
+						Path filePath = Paths.get(save_file_nm);
+						System.out.println("0번쨰 물리적 파일 삭제 경로 " + filePath);
+
+							try {
+								Files.delete(filePath);
+								System.out.println("0번쨰 삭제완료");
+
+							}catch (NoSuchFileException e) {
+								System.out.println("삭제하려는 파일/디렉토리가 없습니다");
+
+							}
+							result = this.boardFileDelete(fileList.get(i).getFile_no());
+					}
+			}
+
+/*			if(fileList.size()!=0) {
 				if(!fileList.get(0).getOrigin_file_nm().equals("")  && !uploadFile[0].getOriginalFilename().equals("")) {
 
 					System.out.println("기존파일 삭제할거야 0번째 일때 " + "기존파일 : " + fileList.get(0).getOrigin_file_nm() + "새로운 파일 : " + uploadFile[0].getOriginalFilename() );
@@ -286,7 +309,7 @@ public class BoardService {
 
 			}
 
-
+*/
 			//3. 업로드 파일이 3개 이상이니 반복문으로 체크 후 저장될 변수 조회
 			for( int i=0; i<uploadFile.length; i++ ) { //파일 업로드 가 총 3개씩 올라가니까 length 를 줘서 반복문 돌리기
 
@@ -381,23 +404,25 @@ public class BoardService {
 			System.out.println("야야야야야야" + file_no);
 			result = this.boardFileDelete(file_no);
 
-			//파일 삭제
-			System.out.println(bfdto.getSave_path() + bfdto.getSave_file_nm()  );
-			String save_fileName = bfdto.getSave_path() + bfdto.getSave_file_nm();
-			Path filePath = Paths.get(save_fileName);
-				try {
+//			if(bfdto.getSave_file_nm().equals("")) {
+				//물리저 파일 삭제
+				System.out.println(bfdto.getSave_path() + bfdto.getSave_file_nm()  );
+				String save_fileName = bfdto.getSave_path() + bfdto.getSave_file_nm();
+				Path filePath = Paths.get(save_fileName);
+					try {
 
-					Files.delete(filePath);
-					System.out.println("삭제완료 ");
+						Files.delete(filePath);
+						System.out.println("삭제완료 ");
 
-				} catch (NoSuchFileException e) {
-					System.out.println("삭제하려는 파일/디렉토리가 없습니다");
-					/*
-					 * throw new Exception("삭제하려는 파일/디렉토리가 없습니다"); //Rollback 하기 위해서는 throw new
-					 * Exception 을 사용 }catch (IOException e) { e.printStackTrace(); throw new
-					 * Exception("Rollback 에러");
-					 */
-				}
+					} catch (NoSuchFileException e) {
+						System.out.println("삭제하려는 파일/디렉토리가 없습니다");
+						/*
+						 * throw new Exception("삭제하려는 파일/디렉토리가 없습니다"); //Rollback 하기 위해서는 throw new
+						 * Exception 을 사용 }catch (IOException e) { e.printStackTrace(); throw new
+						 * Exception("Rollback 에러");
+						 */
+					}
+//			}
 
 
 		} catch (IOException e) {

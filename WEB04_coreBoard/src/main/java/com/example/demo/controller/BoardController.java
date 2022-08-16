@@ -166,7 +166,7 @@ public class BoardController {
     //Ajax 는 Ajax에서만 쓸수 있음
 	@GetMapping(value="/getboardDetail")
 	@ResponseBody
-	public BoardGetDto getboardDetail(@RequestParam(value="board_no", required=true) Integer board_no /* Model model*/){
+	public BoardGetDto getboardDetail(@RequestParam(value="board_no", required=true) Integer board_no, Model model){
 			System.out.println("dfdfdsfd:!!!!!!!!!!!!!" + board_no );
 
 			int view_cnt=bs.updateViewcnt(board_no);  //파라미터로 받은 값으로 전달 바로 cunt 업 되게
@@ -178,7 +178,7 @@ public class BoardController {
 			//String date = df.format(bgdto.getReg_dt());
 			//	int view_cnt=bs.updateViewcnt(bgdto.getBoard_no());
 
-
+			int filecount = 0;
 			String ref_pk = Integer.toString(board_no);
 			List<BoardFileDto> fileList = bs.getFileOne(ref_pk);
 			//fileList size 체크를 해주는 이유는 만약 파일이 없다면 파일 도 조회되어 조회가 안되면 안나올 수 있으므로 1개라도 조회할 수 있게
@@ -186,7 +186,6 @@ public class BoardController {
 				bgdto.setFileList(fileList);  //파일을 List로 가져오는 경우는 하나의 board_no 에 파일이 3개까지 들어있으니 List로 가져와서 boardGetDto 에 담아준다
 			//	int filecount = fileList.size() ;*********
 			//	bgdto.setFilecount(filecount);
-
 			}
 
 			System.out.println("!!!!!!!!!!!뷰 카운트 :  "+ bgdto.getView_cnt());
@@ -292,6 +291,9 @@ public class BoardController {
 		  if(fileList.size() >0) {
 			  bgdto.setFileList(fileList);  //파일을 List로 가져오는 경우는 하나의 board_no 에 파일이 3개까지 들어있으니 List로 가져와서 boardGetDto 에 담아준다
 
+			//  model.addAttribute("save_file_nm1", fileList.get(0).getSave_file_nm());
+			//  model.addAttribute("save_file_nm2", fileList.get(1).getSave_file_nm());
+			 // model.addAttribute("save_file_nm3", fileList.get(2).getSave_file_nm());
 
 			  for(BoardFileDto bfdto : fileList) { //fileList를 dto 에 담아서 개수 체크 해줘서 x박스 뜨게하기
 				  System.out.println(count + " 번쨰 " + bfdto);
@@ -332,6 +334,7 @@ public class BoardController {
 
 		  if(fileList.size() > 0) {
 		  bgdto.setFileList(fileList);  //파일을 List로 가져오는 경우는 하나의 board_no 에 파일이 3개까지 들어있으니 List로 가져와서 boardGetDto 에 담아준다
+
 		  }
 
 
