@@ -63,6 +63,12 @@
 							data +="	<td class='l'>";
 
 							data += " <a href='javascript:void(0);' onclick='detailForm(" + boardList[i]['board_no'] + ")'>" + boardList[i]["title"];
+
+							if((boardList[i]['reply_count']) != 0){
+
+								data +="<span style='color:red; font-weight:bold;'>" + "[" +  boardList[i]['reply_count'] + "]" +"</span>"
+							}
+
 							if((boardList[i]["new_yn"]) ==='Y'){//type 까지 비교 문자와 문자
 								data +=	"<img src='resources/images/new.gif' class='new' />";
 							}

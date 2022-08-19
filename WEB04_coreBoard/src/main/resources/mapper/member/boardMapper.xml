@@ -87,6 +87,7 @@
 			,board.view_cnt
 			,board.reg_dt
 			,(select count(*) from bt_tb_file file where file.ref_pk = board.board_no) as file_count
+			,(select count(*) from bt_tb_reply reply where reply.board_no =board.board_no)as reply_count
 			,case
 				when DATEDIFF(now() ,board.reg_dt) &lt; 4 then 'Y' <!-- 날짜 계산 NEW  -->
 				else 'N'
@@ -408,5 +409,74 @@
 
 	</update>
 
+	<select id="replyList" parameterType="replyDto" resultType="replyDto">
+	select
+			row_number() over(order by reply_no asc) as rnum
+			,reply_no
+			,content
+			,date_format( indate, '%Y%m%d%H%i%s') as indate
+			,reply_nm
+		from
+			bt_tb_reply
+		where
+			board_no = #{board_no}
+		order by
+			rnum asc ;
+	</select>
 
+	<select id = "replyCount" parameterType ="replyDto" resultType ="int">
+		select
+			count(*)
+		from
+			bt_tb_reply
+		where
+			board_no = #{board_no}
+	</select>
+
+	<insert id="insertReply" parameterType="ReplyDto" useGeneratedKeys="true" keyProperty="reply_no" keyColumn="reply_no">
+
+		insert into
+			bt_tb_reply(
+			board_no
+			,content
+			,indate
+			, reply_nm
+			, reply_password
+			)
+		values(
+			#{board_no}
+			,#{content}
+			,now()
+			,#{reply_nm}
+			,#{reply_password}
+			)
+
+	</insert>
+
+	<select id="getSelectReply" parameterType="int" resultType="replyDto">
+		 /* 댓글 비밀번호 조회 */
+		 select
+		 	reply_password
+		 from
+		 	bt_tb_reply
+		 where
+		 	reply_no = #{reply_no}
+	</select>
+
+	<insert id="updateReply" parameterType="ReplyDto">
+
+		update
+			bt_tb_reply
+		set
+			content = #{content}
+		where
+			reply_no=#{reply_no}
+	</insert>
+
+	<delete id="deleteReply" parameterType="int">
+		delete
+		 from bt_tb_reply
+		 where reply_no = #{reply_no}
+
+	</delete>
 </mapper>

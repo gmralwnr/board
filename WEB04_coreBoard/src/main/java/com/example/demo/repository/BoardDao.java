@@ -11,6 +11,7 @@ import com.example.demo.dto.BoardFileDto;
 import com.example.demo.dto.BoardGetDto;
 import com.example.demo.dto.BoardListReqDto;
 import com.example.demo.dto.BoardSetDto;
+import com.example.demo.dto.ReplyDto;
 
 @Mapper
 public interface BoardDao {
@@ -61,6 +62,18 @@ public interface BoardDao {
 	int downloadCount(int file_no);
 
 	int boardAllFileDelete(BoardGetDto bgdto);
+
+	List<ReplyDto> replyList(Integer board_no);
+
+	int insertReply(ReplyDto rdto);
+
+	ReplyDto getSelectReply(int reply_no);
+
+	int updateReply(ReplyDto rdto);
+
+	int deleteReply(int reply_no);
+
+	int replyCount(int board_no);
 
 
 

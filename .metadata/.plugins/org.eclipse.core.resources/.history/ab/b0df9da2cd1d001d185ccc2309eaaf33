@@ -1,0 +1,19 @@
+package com.example.demo.dto;
+
+import java.sql.Timestamp;
+
+import lombok.Data;
+
+@Data
+public class ReplyDto {
+
+
+
+	private Integer reply_no;
+	private Integer board_no;
+	private String content;
+	private Timestamp indate;
+	private String reply_nm;
+	private String reply_password;
+
+}

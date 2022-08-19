@@ -34,6 +34,7 @@ public class BoardDto {
 	private String new_yn;
 	private String category_cd_nm;
 	private int rnum;
+	private int reply_count;
 
 
 

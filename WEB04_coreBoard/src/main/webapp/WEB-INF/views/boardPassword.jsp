@@ -29,7 +29,6 @@
 						alert(msg); //커ㄴ트롤러에서 이미 실행이 되어서 위에 하나만 적어줌
 					if(flag =="true"){
 						if(window.name=="update"){
-						alert("업데이트당 ")
 						opener.updateboard(); //form 자체를 submit 함
 						//window.opener.location.href="boardUpdateForm?board_no=${board_no}";
 						self.close();

@@ -27,6 +27,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.jasper.tagplugins.jstl.core.Out;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,7 @@ import com.example.demo.dto.BoardGetDto;
 import com.example.demo.dto.BoardListReqDto;
 import com.example.demo.dto.BoardSetDto;
 import com.example.demo.dto.Paging;
+import com.example.demo.dto.ReplyDto;
 import com.example.demo.service.BoardService;
 
 @Controller
@@ -117,6 +119,7 @@ public class BoardController {
 			// 검색어 리스트 가져오기
 			// BoardListReqDto boardkeyList = new BoardListReqDto();
 
+
 			// list 파일 개수 확인 하는 법
 			for (BoardDto board : boardList) {
 				// System.out.println("\n!!!! " + board);
@@ -128,6 +131,8 @@ public class BoardController {
 			// bkdto.getCategory());
 			boardDtoList.setBoardList(boardList);
 			boardDtoList.setCount(count); // boardDtoList 에 받아서 ajax에 보내기
+
+
 
 			return boardDtoList;
 	}
@@ -166,7 +171,8 @@ public class BoardController {
     //Ajax 는 Ajax에서만 쓸수 있음
 	@GetMapping(value="/getboardDetail")
 	@ResponseBody
-	public BoardGetDto getboardDetail(@RequestParam(value="board_no", required=true) Integer board_no, Model model){
+	public BoardGetDto getboardDetail(@RequestParam(value="board_no", required=true) Integer board_no
+			, Model model){
 			System.out.println("dfdfdsfd:!!!!!!!!!!!!!" + board_no );
 
 			int view_cnt=bs.updateViewcnt(board_no);  //파라미터로 받은 값으로 전달 바로 cunt 업 되게
@@ -196,6 +202,10 @@ public class BoardController {
 			//model.addAttribute("getBoard", bgdto);  의미없음
 
 			//bgdto.setDate(date);
+
+
+
+
 			return bgdto;
 	}
 
@@ -571,5 +581,103 @@ public class BoardController {
 
 	}
 
+///////////////////////////////////////////////////////////////////
+
+	@GetMapping(value="/replylist")
+	@ResponseBody
+	public ReplyDto replyList(@RequestParam(value="board_no") int board_no) {
+		//댓글 조회
+		List<ReplyDto> replyList = bs.replyList(board_no);
+		ReplyDto rdto = new ReplyDto();
+		rdto.setReplyList(replyList);
+
+		int reply_count = bs.replyCount(board_no);
+		rdto.setReply_count(reply_count);
+
+		return rdto;
+	}//
+	//댓글 insert
+	@PostMapping(value="/insertReply")
+	@ResponseBody
+	public int getboardDetail(@RequestParam(value="replycontent",required=true) String content, @RequestParam(value="reply_pw") String reply_password,
+			@RequestParam(value="reply_nm") String reply_nm, @RequestParam(value="board_no" , required=true) Integer board_no) {
+
+		System.out.println(content);
+		System.out.println(reply_password);
+		System.out.println(reply_nm);
+		System.out.println("SDfsdf" + board_no);
+		int result =0;
+		ReplyDto rdto = new ReplyDto();
+		rdto.setContent(content);
+		rdto.setReply_password(reply_password);
+		rdto.setReply_nm(reply_nm);
+		rdto.setBoard_no(board_no);
+
+		result =bs.insertReply(rdto);
+
+
+		return result;
+	}
+
+	//댓글 비밀번호 확인 확인창
+	@GetMapping(value="/replyPw")
+	public String replyPw() {
+
+			return "replyPw";
+	}
+
+	//댓글 비밀번호 체크
+	@PostMapping(value="/replypwcheck")
+	@ResponseBody
+	public ReplyDto replyPwCheck( @RequestParam(value= "reply_no" ,required=true) Integer reply_no,  @RequestParam(value ="replyPw") String replyPw) {
+
+		ReplyDto rdto = bs.getSelectReply(reply_no);
+
+		System.out.println("댓글비밀번호 확인" + replyPw);
+		System.out.println("댓글넘 확인" + reply_no);
+		System.out.println(rdto.getReply_password());
+		String msg ="";
+		String flag ="";
+		if(rdto.getReply_password().equals(replyPw)) {
+			msg ="수정하시겠습니까?";
+			flag ="true";
+		}else if(!rdto.getReply_password().equals(replyPw)) {
+			msg =" 비밀번호가 틀렸습니다";
+			flag ="false";
+		}else {
+			msg ="관리자에게 문의하세요";
+			flag ="false";
+		}
+
+		rdto.setMsg(msg);
+		rdto.setFlag(flag);
+
+		return rdto;
+	}
+
+	@GetMapping(value="/replyUpdate")
+	@ResponseBody
+	public int replyUpdate(@RequestParam(value= "reply_no") int reply_no, ReplyDto rdto ) {
+		System.out.println(rdto);
+		System.out.println(reply_no);
+		int result =0;
+
+		result=bs.updateReply(rdto);
+
+		System.out.println(result);
+
+
+		return result;
+	}
+	@PostMapping(value="/replyDelete")
+	@ResponseBody
+	public int replyDelete(@RequestParam(value= "reply_no") int reply_no) {
+
+		int result =0;
+
+		result=bs.deleteReply(reply_no);
+
+		return result;
+	}
 
 }

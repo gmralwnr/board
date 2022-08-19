@@ -21,6 +21,7 @@ import com.example.demo.dto.BoardFileDto;
 import com.example.demo.dto.BoardGetDto;
 import com.example.demo.dto.BoardListReqDto;
 import com.example.demo.dto.BoardSetDto;
+import com.example.demo.dto.ReplyDto;
 import com.example.demo.repository.BoardDao;
 
 @Service
@@ -494,6 +495,36 @@ public class BoardService {
 		}
 
 		return 0;
+	}
+
+	public List<ReplyDto> replyList(Integer board_no) {
+
+		return bdao.replyList(board_no);
+	}
+
+	public int insertReply(ReplyDto rdto) {
+
+		return bdao.insertReply(rdto);
+	}
+
+	public ReplyDto getSelectReply(int reply_no) {
+
+		return bdao.getSelectReply(reply_no);
+	}
+
+	public int updateReply(ReplyDto rdto) {
+
+		return bdao.updateReply(rdto);
+	}
+
+	public int deleteReply(int reply_no) {
+
+		return bdao.deleteReply(reply_no);
+	}
+
+	public int replyCount(int board_no) {
+
+		return bdao.replyCount(board_no);
 	}
 
 

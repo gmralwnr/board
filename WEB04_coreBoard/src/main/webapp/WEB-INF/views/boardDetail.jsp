@@ -12,7 +12,9 @@
 		//Detail 정보 가져와서 뿌릴 때
 		$(document).ready(function(){
 				detail();
+				replyList();
 				//ajax 파일 리스트 조회 추가
+	 	gnb('1','1');
 		})
 
 		function detail(){
@@ -110,6 +112,7 @@
 
 
 					}
+
 				},
 				error :function(){
 					console.log("detail() 오류");
@@ -131,62 +134,245 @@
 			window.open(url,name, opt);
 		}
 
-		//팝업창에서 수정창으로 넘어가는 함수
-		function updateboard(){
-			$("#searchBoardForm").attr("onsubmit", '');
-			$("#searchBoardForm").attr("method", 'post');
-			$('#searchBoardForm').attr("action", "/boardUpdateForm");
-			$('#searchBoardForm').submit();
-	 	}
 
-		//팝업창에서 삭제로 넘어가는 함수
-	 	function deleteboard(){
-	 		/* $("#searchBoardForm").attr("onsubmit", '');
-			$("#searchBoardForm").attr("method", "post");
-//			$("#searchBoardForm #_method").val("method", "delete");
-	 		$("#searchBoardForm").attr("action", "/boardDeleteForm");
-			$('#searchBoardForm').submit();
- */
+			//팝업창에서 수정창으로 넘어가는 함수
+			function updateboard(){
+				$("#searchBoardForm").attr("onsubmit", '');
+				$("#searchBoardForm").attr("method", 'post');
+				$('#searchBoardForm').attr("action", "/boardUpdateForm");
+				$('#searchBoardForm').submit();
+		 	}
+
+			//팝업창에서 삭제로 넘어가는 함수
+		 	function deleteboard(){
+		 		/* $("#searchBoardForm").attr("onsubmit", '');
+				$("#searchBoardForm").attr("method", "post");
+//				$("#searchBoardForm #_method").val("method", "delete");
+		 		$("#searchBoardForm").attr("action", "/boardDeleteForm");
+				$('#searchBoardForm').submit();
+	 */
+				$.ajax({
+					url			: "/boardDeleteForm",
+					type		: "POST",
+					dataType	: "json",
+					data		: $("#searchBoardForm").serialize(),
+
+					success		: function(result){
+
+						/**/
+						if(result >0){
+							alert("삭제되었습니다");
+							location.href ="/" //화면 새로고침
+							}else{
+								alert("삭제안되었습니다");
+						}
+					} ,
+					error : function (){
+						alert("에러 발생 관리자에게 문의 하시기바랍니다");
+						}
+
+				});
+		 	}
+
+			//목록으로 넘어가는 함수
+		 	function boardList(){
+		 		//$("input[name='board_no']").val(board_no);  //board_no 값을 board_no에 값을 넘겨줌 -> 컨트롤러에 받아서 값을 내보냄 // 폼테그에도 INPUT값을 적어줘야함
+				$("#searchBoardForm").attr("onsubmit", '');
+				//$("#boardView").attr("method", 'post');
+				$("#searchBoardForm").attr("method", 'post');
+				$('#searchBoardForm').attr("action", "/").submit();
+
+		 	}
+
+			function fileDownload(file_no){
+				alert("다운로드 할거지롱");
+				alert(file_no);
+				location.href ="filedownload?file_no=" + file_no;
+			}
+
+
+
+
+		//////댓글 !!
+		function replyList(num, reply_no){
+			board_no = $("#board_no").val();
+
+
 			$.ajax({
-				url			: "/boardDeleteForm",
-				type		: "POST",
-				dataType	: "json",
-				data		: $("#searchBoardForm").serialize(),
+				url		: "/replylist",
+				type	: "GET",
+				dataType: "json",
+				data 	:{ board_no : $("#board_no").val()},
+				success	: function(result){
+					//댓글 추가
+					let replyList = result.replyList;
+					let reply_count = result.reply_count;
+					let data ="";
+					if(replyList !=null){
+						$("#reply_count").append(reply_count);
 
-				success		: function(result){
 
-					/**/
-					if(result >0){
-						alert("삭제되었습니다");
-						location.href ="/" //화면 새로고침
-						}else{
-							alert("삭제안되었습니다");
+						for(var i=0; i<replyList.length; i++){
+						///$('#replyList').empty(data);
+							let reg_dt_temp = replyList[i]["indate"];
+							let reg_dt_real  = reg_dt_temp.substring(0,4); // yyyy
+							reg_dt_real += "-";
+							reg_dt_real += reg_dt_temp.substring(4,6);
+							reg_dt_real += "-";
+							reg_dt_real += reg_dt_temp.substring(6,8);
+							reg_dt_real += " ";
+							reg_dt_real += reg_dt_temp.substring(8,10);
+							reg_dt_real += ":";
+							reg_dt_real += reg_dt_temp.substring(10,12);
+							reg_dt_real += ":";
+							reg_dt_real += reg_dt_temp.substring(12,14);
+
+
+
+							data +="<tr>"
+							data +="	<td class='fir'>" + replyList[i]["rnum"];
+							data +="	<td>" + replyList[i]["reply_nm"];
+							data += "</td>";
+							data +="	<td  colspan='3'>"
+							if(reply_no == replyList[i]["reply_no"]){
+								if (num == 1) {
+									data +="<textarea rows='3' class='input' name='content' id='content' style='width:50%; resize: none;'>";
+									data += replyList[i]["content"];
+									data += "</textarea>";
+									num=0;
+								}
+							} else {
+								data += replyList[i]["content"] ;
+							}
+							data += "</td>";
+							data +="<td>" + reg_dt_real;
+							data +="</td>"
+							if (num == 0) {
+								if(reply_no == replyList[i]["reply_no"]){
+											data +="	<td>" + "<input type='button' onclick=" + "replyUpdate" + "('" + replyList[i]["reply_no"] + "') "   + "style='cursor:pointer;'" + " value= '변경' >";
+											data +="</td>"
+									}
+							}else {
+								data +="<td>" + "<input type='button' class='btn btn-green' onclick=" + "openPopup" + "('/replyPw','" + replyList[i]["reply_no"] + "'" +  ",'replyUpdate') "   + "style='cursor:pointer;'" + " value= '수정' >";
+								data += "&nbsp;"
+								data +="<input type='button' class='btn btn-red' + onclick=" +  "openPopup" + "('/replyPw','" + replyList[i]["reply_no"] + "'" +  ",'replyDelete') " + " value= '삭제' >"
+								data += "</td>";
+								data +="</tr>"
+							}
+						}
+					$('#replyList').html(data);
+					//$('#replyList').append(data);
 					}
-				} ,
-				error : function (){
-					alert("에러 발생 관리자에게 문의 하시기바랍니다");
-					}
-
+				}
 			});
-	 	}
 
-		//목록으로 넘어가는 함수
-	 	function boardList(){
-	 		//$("input[name='board_no']").val(board_no);  //board_no 값을 board_no에 값을 넘겨줌 -> 컨트롤러에 받아서 값을 내보냄 // 폼테그에도 INPUT값을 적어줘야함
-			$("#searchBoardForm").attr("onsubmit", '');
-			//$("#boardView").attr("method", 'post');
-			$("#searchBoardForm").attr("method", 'post');
-			$('#searchBoardForm').attr("action", "/").submit();
-
-	 	}
-
-		function fileDownload(file_no){
-			alert("다운로드 할거지롱");
-			alert(file_no);
-			location.href ="filedownload?file_no=" + file_no;
 		}
 
-	 	gnb('1','1');
+		function openPopup(url, reply_no, name){
+			//var url ="replyPw";
+			alert(  reply_no + name);
+			//벨류, input 값에 hideen 으로 줘야함  ****
+			$("#reply_no").attr(reply_no);
+			$("#reply_no").val(reply_no);
+			var opt ="toolbar=no, memubar=no,status=no,  scrollbars=no, resizable=no, width=700, height=400, top=50, left=300" ;
+			window.open(url,name ,opt);
+		}
+
+		function replyUpdateform(num, reply_no){ //num은 매개변수 준거임
+			//alert(num);
+			replyList(num, reply_no);
+
+		}
+		function replyDeleteform(reply_no){ //num은 매개변수 준거임
+			console.log( reply_no);
+			$.ajax({
+				url			: "/replyDelete",
+				type		: "POST",
+				dataType	: "json",
+				data		: { reply_no : $("#reply_no").val() },
+				success		: function(result){
+					if(result ==1) {
+						alert("삭제 되었습니다");
+						location.reload();
+					}else {
+						alert("삭제 안되었습니다");
+					}
+				}
+			});
+
+
+		}
+	//	var board_no =document.getElementById("board_no").value();
+		function reply(board_no){
+			alert (board_no);
+ 			let content = $("#replycontent").val();
+ 			let reply_nm = $("#reply_nm").val();
+ 			let reply_pw = $("#reply_pw").val();
+ 			//alert(content);
+ 			//console.log(content);
+			if(replycontent==null || replycontent==""){
+				alert("내용을 입력하세요");
+				return false;
+			}else if(reply_nm ==null || reply_nm==""){
+				alert("닉네임을 입력하세요");
+				return false;
+			}else if(reply_pw ==null || reply_pw==""){
+				alert("비밀번호를 입력하세요");
+				return false;
+			}else{
+				replyInsert(board_no);
+			}
+		}
+
+		function replyInsert(board_no){
+			alert($("#replycontent").val())
+			$.ajax({
+				url			:	"/insertReply",
+				type		:	"POST",
+				dataType	:	"json",
+				data		:{
+					replycontent : $("#replycontent").val(),
+	 						reply_nm : $("#reply_nm").val(),
+	 						reply_pw : $("#reply_pw").val(),
+	 						board_no
+
+				},
+				success : function(result){
+					console.log("resul", result);
+					if(result>0){
+						alert("답글 성공");
+						location.reload();
+						//location.reload();
+					}
+
+				},
+				error : function (){
+					alert("e댓글 등록 불가 관리자에게 문의")
+				}
+			});
+		}
+
+
+		function replyUpdate(reply_no){
+			alert($("#content").val());
+			$.ajax({
+				url			: "/replyUpdate",
+				type		: "GET",
+				dataType	: "json",
+				data		:  $("#replyUpdate").serialize() ,
+				success 	: function(result){
+						if(result>0){
+							alert("수정 성공" );
+							location.reload();
+
+						}else {
+							alert("수정 실패");
+						}
+				}
+			});
+
+		}
+
 	</script>
 </head>
 <body>
@@ -214,6 +400,7 @@
 				<input type="hidden" name="category" id="category" value="${brdto.category}">
 				<input type="hidden" name="arrayboard" id="arrayboard" value="${brdto.arrayboard}">
 				<input type="hidden" value="${board_no}" name="board_no" id="board_no">
+
 				<input type="hidden" name="_method" id="_method">
 			<!-- //	<input type="hidden" name="board_no" id="board_no"/> -->
 		</form>
@@ -263,7 +450,6 @@
 			</tbody>
 			</tbody>
 			</table>
-
 			<div class="btn-box r">
 				<!-- <a href="javascript:void(0);" class="btn btn-green" onclick="boardwriter()">수정</a> -->
 				<a href="javascript:void(0);" class="btn btn-green" onclick="openWin('/boardPassword', 'update')"  >수정</a>
@@ -271,6 +457,41 @@
 				<a href="javascript:void(0);" class="btn btn-default"  onclick="boardList()">목록</a>
 			</div>
 <!-- </form> -->
+
+<!-- 댓글  -->
+<span class="total" >댓글 수 : <strong id="reply_count"  style="color:red;"></strong> 건</span>
+	<form id="replyUpdate">
+		<input type="hidden" name="reply_no" id="reply_no" value=""/>
+			<br><br>
+			<table class="write">
+				<colgroup>
+					<col style="width:70px;">
+					<col style="width:100px;">
+					<col style="width:500px;">
+					<col style="width:100px;">
+					<col style="width:10px;">
+				</colgroup>
+			<tr>
+			<th colspan="2" class="fir" style="color:red;">답글</th>
+
+
+				<td colspan="3">
+
+					<textarea rows="5" class="input" name="replycontent" id="replycontent"style="width:150%; resize: none;"></textarea>
+					<input type="text"  id="reply_nm" name="reply_nm" style="width:25%;" placeholder="닉네임">
+					<input type="password"  id="reply_pw" name="reply_pw" style="width:25%;" placeholder="비밀번호">
+					<a href="javascript:void(0);" class="btn btn-red" style="width:15%; " onclick="reply(board_no)">확인</a>
+					</td>
+			</tr>
+
+			<tr><th class="fir" > 순번</th><th > 닉네임</th><th  colspan="3">내용</th><th>날짜</th><th>삭제/수정</th>
+
+			<tbody id="replyList">
+			</tbody>
+
+
+			</table>
+	</form>
 		</div><!-- /contents -->
 
 	</div><!-- /container -->
